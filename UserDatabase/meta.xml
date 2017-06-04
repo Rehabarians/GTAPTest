@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<meta>
+  
+  <info name="newserver" descritpion="Boilerplate MySQL with registration and login" author="AndreasB" type="script" />
+
+  <script src="Main.cs" type="server" lang="csharp" />
+
+  <assembly ref="Insight.Database.Configuration.dll" />
+  <assembly ref="Insight.Database.dll" />
+  <assembly ref="Insight.Database.Providers.Default.dll" />
+  <assembly ref="Insight.Database.Providers.MySql.dll" />
+  <assembly ref="MySql.Data.dll" />
+  <assembly ref="System.Data.dll" />
+  <assembly ref="System.Globalization.dll" />
+  <assembly ref="System.Configuration.dll" />
+  <assembly ref="BCrypt.Net.dll" />
+  
+</meta>

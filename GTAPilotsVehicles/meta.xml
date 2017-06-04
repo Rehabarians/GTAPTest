@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<meta>
+
+  <script src="VehicleSpawn.cs" type="server" lang="csharp" />
+
+</meta>

@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<meta>
+    
+  <info name="Startup" description="Flying Startup" />
+  <script src="Startup.cs" type="server" lang="csharp" />
+
+  <script src="TestObjects.cs" type="server" lang="csharp" />
+  
+  <script src="Time.cs" type="server" lang="csharp" />
+  <script src="RandomWeather.cs" type="server" lang="csharp" />
+
+  <assembly ref="GTAPilots.dll" />
+
+</meta>

@@ -1,0 +1,9 @@
+<meta>
+    <info name="Administration Utilities" author="Guadmaz" type="script" />        
+    <script src="GTAPilotsAdmin.cs" type="server" lang="csharp" />
+  
+    <assembly ref="GTAPilotsAdmin.dll" />
+  
+    <assembly ref="System.Xml.dll" />
+  
+</meta>

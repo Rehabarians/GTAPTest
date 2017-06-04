@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<meta>
+  <assembly ref="System.Xml.dll"/>
+
+  <info name="Commands" description="Flying Commands" />
+  <script src="Commands.cs" type="server" lang="csharp" />
+
+  <info name="Countdown" description="Countdown Display" />
+  <script src="Countdown.js" type="client" lang="javascript" />
+
+  <script src="NavigationBeacons.js" type="client" lang="javascript" />
+
+  <script src="ColTeleports.js" type="client" lang="javascript" />
+  
+  <script src="takeoffandlanding.js" type="client" lang="javascript" />
+
+</meta>
