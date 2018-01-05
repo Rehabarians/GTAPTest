@@ -1,9 +1,16 @@
 ﻿using System;
 using System.Threading.Tasks;
-using GTANetworkShared;
-using GTANetworkServer;
-
-
+using GrandTheftMultiplayer.Server;
+using GrandTheftMultiplayer.Server.API;
+using GrandTheftMultiplayer.Server.Constant;
+using GrandTheftMultiplayer.Server.Elements;
+using GrandTheftMultiplayer.Server.Extensions;
+using GrandTheftMultiplayer.Server.Managers;
+using GrandTheftMultiplayer.Server.Models;
+using GrandTheftMultiplayer.Server.Util;
+using GrandTheftMultiplayer.Shared;
+using GrandTheftMultiplayer.Shared.Gta;
+using GrandTheftMultiplayer.Shared.Math;
 
 namespace GTAPilots
 {
@@ -17,7 +24,6 @@ namespace GTAPilots
             API.onPlayerFinishedDownload += PlayerDownloaded;
             API.onPlayerRespawn += Respawn;
             API.onPlayerDisconnected += PlayerDisconnect;
-            API.onClientEventTrigger += OnClientEvent;
             API.onPlayerDeath += PlayerDed;
         }
 
@@ -29,7 +35,6 @@ namespace GTAPilots
 
         public void PlayerConnected(Client player)
         {
-            API.sendNotificationToAll("~b~~h~" + player.name + "~h~ ~w~joined.");
             API.sendChatMessageToAll("~b~~h~" + player.name + "~h~~w~ has joined the server.");
             API.sendChatMessageToPlayer(player, "Use ~y~/help ~w~for a list of available commands");
             API.sendChatMessageToPlayer(player, "Go to ~r~GTAPilots.net~w~ and sign up on the forums!");
@@ -40,20 +45,11 @@ namespace GTAPilots
 
         public void PlayerDownloaded(Client player)
         {
-
-        }
-
-        public void OnClientEvent(Client sender, string Event, params object[] arguments)
-        {
-            if (Event == "ElevatorUp")
-            {
-                API.setEntityPosition(sender, new Vector3(-2361.015, 3248.824, 92.90366));
-            }
-
-            else if (Event == "ElevatorDown")
-            {
-                API.setEntityPosition(sender, new Vector3(-2361.174, 3249.038, 32.81074));
-            }
+            API.expandWorldLimits(16000, 16000, 16000);
+            API.consoleOutput("World Border Limit is set to: " + API.getWorldLimits().ToString());
+            API.expandWorldLimits(-16000, -16000, -16000);
+            //API.triggerClientEvent(player, "ExpandLimit");
+            API.consoleOutput("World Border Limit is set to: " + API.getWorldLimits().ToString());
         }
 
         private void PlayerDed(Client player, NetHandle reason, int weapon)
@@ -88,15 +84,15 @@ namespace GTAPilots
         public void Respawn(Client sender)
         {
 
-            WeaponHash Flare = WeaponHash.FlareGun;
+            WeaponHash Flare = WeaponHash.Flare;
             WeaponHash Para = WeaponHash.Parachute;
 
             API.givePlayerWeapon(sender, Flare, 999, false, true);
             API.givePlayerWeapon(sender, Para, 1, false, true);
             API.setEntityDimension(sender, 0);
 
-            string SpawnLocation = API.getEntitySyncedData(sender, "SpawnID");
-            string ClassType = API.getEntitySyncedData(sender, "Class");
+            string SpawnLocation = API.getEntityData(sender, "SpawnID");
+            string ClassType = API.getEntityData(sender, "Class");
 
             if (ClassType == "Security")
             {
@@ -110,15 +106,15 @@ namespace GTAPilots
                 API.setEntityRotation(sender, new Vector3(0, 0, 50.27066));
             }
 
-            else if (SpawnLocation == "LSL")
+            else if (SpawnLocation == "EVWA")
             {
-                API.setEntityPosition(sender, new Vector3(-1220.037, -2749.073, 18.2224));
+                API.setEntityPosition(sender, new Vector3(1226.155, 326.3367, 81.99096));
                 API.setEntityRotation(sender, new Vector3(0, 0, 146.4828));
             }
 
             else if (SpawnLocation == "Sandy")
             {
-                API.setEntityPosition(sender, new Vector3(-1220.037, -2749.073, 18.2224));
+                API.setEntityPosition(sender, new Vector3(1703.595, 3285.008, 41.13425));
                 API.setEntityRotation(sender, new Vector3(0, 0, -166.8748));
             }
 
@@ -191,7 +187,6 @@ namespace GTAPilots
 
         public void PlayerDisconnect(Client player, string reason)
         {
-            API.sendNotificationToAll("~b~~h~" + player.name + "~h~ ~w~quit.");
             API.sendChatMessageToAll("~b~~h~" + player.name + "~h~~w~ has quit the server. (" + reason + ")");
             API.logoutPlayer(player);
         }

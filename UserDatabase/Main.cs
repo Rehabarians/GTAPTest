@@ -1,21 +1,26 @@
-﻿using GTANetworkServer;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MySql.Data.MySqlClient;
 using Insight.Database.Providers.MySql;
 using Insight.Database;
-
+using GrandTheftMultiplayer.Server;
+using GrandTheftMultiplayer.Server.API;
+using GrandTheftMultiplayer.Server.Managers;
+using GrandTheftMultiplayer.Server.Elements;
+using GrandTheftMultiplayer.Server.Constant;
+using GrandTheftMultiplayer.Shared;
+using GrandTheftMultiplayer.Shared.Math;
 using BCr = BCrypt.Net;
+using System.Data.SqlClient;
 
 namespace UserDatabase
 {
     public class Main : Script
     {
 
-        private static MySqlConnectionStringBuilder _database;
+        private static SqlConnectionStringBuilder _database;
         private static IUserRepository _userRepository;
 
         public Main()
@@ -27,7 +32,7 @@ namespace UserDatabase
         {
             MySqlInsightDbProvider.RegisterProvider();
 
-            _database = new MySqlConnectionStringBuilder("server=localhost;user=root;database=newserver;port=3306;password=;");
+            _database = new SqlConnectionStringBuilder("server=localhost;user=root;database=newserver;port=3306;password=;");
 
             _userRepository = _database.Connection().As<IUserRepository>();
         }

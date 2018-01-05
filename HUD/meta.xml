@@ -2,5 +2,6 @@
 <meta>
 
   <script src="Hud.js" type="client" lang="javascript" />
-
+  <script src="RadarBlips.cs" type="server" lang="csharp" />
+  
 </meta>

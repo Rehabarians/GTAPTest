@@ -1,4 +1,4 @@
-﻿/// <reference path ="\types-gtanetwork\index.d.ts" />
+﻿/// <reference path ="\types-gt-mp\index.d.ts" />
 
 var SkinID = null;
 var SpawnID = null;
@@ -33,7 +33,7 @@ var classes = ["Civilian Pilot", "Military Pilot", "Stunt Pilot", "Rescue Team M
 var civilSkinMenu = null;
 var civilSpawnMenu = null;
 var civilSkin = ["Captain", "First Officer", "Second Officer"];
-var civilSpawn = ["Los Santos International", "Los Santos Local", "Sandy Shores Airfield"];
+var civilSpawn = ["Los Santos International", "East Vinewood Airport", "Sandy Shores Airfield"];
 
 var militarySkinMenu = null;
 var militarySpawnMenu = null;
@@ -43,7 +43,7 @@ var militarySpawn = ["Military Base"];//, "Aircraft Carrier"];
 var stuntSkinMenu = null;
 var stuntSpawnMenu = null;
 var stuntSkin = ["Stunter", "Extreme Stunter"];
-var stuntSpawn = ["Los Santos Local", "Sandy Shores Airfield", "Base Jump"];
+var stuntSpawn = ["East Vinewood Airport", "Sandy Shores Airfield", "Base Jump"];
 
 var rescueSkinMenu = null;
 var rescueSpawnMenu = null;
@@ -78,7 +78,7 @@ var hostSpawn = ["Los Santos International Airport", "Sandy Shores Airfield"];
 var passengerSkinMenu = null;
 var passengerSpawnMenu = null;
 var passengerSkin = ["Passenger Skin 1", "Passenger Skin 2", "Passenger Skin 3", "Passenegr Skin 4"];
-var passengerSpawn = ["LSIA Hotel", "Los Santos Local", "Sandy Shores Motel"];
+var passengerSpawn = ["LSIA Hotel", "East Vinewood Airport", "Sandy Shores Motel"];
 
 API.onUpdate.connect(function () {
     if (menuPool != null) {
@@ -116,7 +116,7 @@ API.onResourceStart.connect(function () {
 
 API.onServerEventTrigger.connect(function (name, args) {
 
-    if (name === "skin_select_start") {
+    if (name === "SpawnMenuStart") {
 
         mainCam = API.createCamera(new Vector3(-1010, -2695, 33.47642), new Vector3(2.79839826, 0, 147.313782));
         //API.pointCameraAtEntity(mainCam, API.getLocalPlayer(), new Vector3(0, 0, 0));
@@ -127,11 +127,12 @@ API.onServerEventTrigger.connect(function (name, args) {
         API.setEntitySyncedData(API.getLocalPlayer(), "Spawning", true);
     }
 
-    else if (name === "skin_select_stop") {
+    else if (name === "SpawnMenuStop") {
 
         API.setActiveCamera(null);
         classMenu.Visible = false;
-        menuPool.CloseAllMenus();
+        API.closeAllMenus();
+        //API.stopAudio();
 
         //API.setPlayerNametagVisible(API.getLocalPlayer(), true);
         API.setEntitySyncedData(API.getLocalPlayer(), "Spawning", false);

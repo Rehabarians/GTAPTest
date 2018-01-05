@@ -1,0 +1,511 @@
+﻿<meta>
+  <file src=".gitattributes" />
+  <file src=".gitignore" />
+  <file src="FlyUS_logo.png" />
+  <file src="Resources.sln" />
+  <script src="Script1.js" type="client" lang="javascript" />
+  <script src="SkinSelectorbackup.js" type="client" lang="javascript" />
+  <file src=".git/COMMIT_EDITMSG" />
+  <file src=".git/config" />
+  <file src=".git/description" />
+  <file src=".git/HEAD" />
+  <file src=".git/index" />
+  <file src=".git/ms-persist.xml" />
+  <file src=".git/hooks/applypatch-msg.sample" />
+  <file src=".git/hooks/commit-msg.sample" />
+  <file src=".git/hooks/post-update.sample" />
+  <file src=".git/hooks/pre-applypatch.sample" />
+  <file src=".git/hooks/pre-commit.sample" />
+  <file src=".git/hooks/pre-push.sample" />
+  <file src=".git/hooks/pre-rebase.sample" />
+  <file src=".git/hooks/pre-receive.sample" />
+  <file src=".git/hooks/prepare-commit-msg.sample" />
+  <file src=".git/hooks/update.sample" />
+  <file src=".git/info/exclude" />
+  <file src=".git/logs/HEAD" />
+  <file src=".git/logs/refs/heads/master" />
+  <file src=".git/objects/02/9f0d4763ff710654c65430ef111d9811ec28af" />
+  <file src=".git/objects/03/78e5f06d1107e4fde2d44a752b21364cd3fecb" />
+  <file src=".git/objects/04/9245f401462e7e3dfbb96385e122ca467a9dab" />
+  <file src=".git/objects/05/77aba55d5959825ffdaacb22a5646f09a113aa" />
+  <file src=".git/objects/07/21cfa03cf6e4092fd44c313a7728df35384545" />
+  <file src=".git/objects/08/389b2afae39941b347d49d71a8c5747ba66886" />
+  <file src=".git/objects/08/92f1ff6a25a0795be163291a5d0a3f40a43040" />
+  <file src=".git/objects/0d/cc9f44626e31a3f35767329ee540194484e50d" />
+  <file src=".git/objects/0e/128064b2193d0d4b19047de6e6c2c6f0f5704b" />
+  <file src=".git/objects/14/36e732109f899cf142f23f3dba47b6f7b1cc63" />
+  <file src=".git/objects/1c/c78b88487b161d2c0e4dc05b858d0fa6176462" />
+  <file src=".git/objects/1d/9e8a90b2bc50d25d8d61be2a15e772470f207a" />
+  <file src=".git/objects/1e/85c6bf393c022f0ec10260515409c5a82e852a" />
+  <file src=".git/objects/1f/f0c423042b46cb1d617b81efb715defbe8054d" />
+  <file src=".git/objects/20/3a4831f3de0aa1c7d69937af3a44ccb7283f0d" />
+  <file src=".git/objects/21/07f1d3c0b8cfae3f72a91201a701c34f4b8034" />
+  <file src=".git/objects/21/a6f7e7e42179ee218859a9062edbc7b383aa2d" />
+  <file src=".git/objects/25/a71bd9d2d6bdd519b35618174beb0216956941" />
+  <file src=".git/objects/26/78bfcd2db1e745f9d911efead220e4e52a58b6" />
+  <file src=".git/objects/26/d44fef718783fab7debb8e75265a3482fa5a11" />
+  <file src=".git/objects/27/d2b992ee8204060e73c300c0542ef5e72e38e4" />
+  <file src=".git/objects/2a/8ab487e734b0f92c4926c59c8218292ab459fa" />
+  <file src=".git/objects/2c/37de4c846b13329e26d24791a3e5d45aafc24e" />
+  <file src=".git/objects/2c/5c8c84a3bb1de13277690a99ffd3ad6d3ae71a" />
+  <file src=".git/objects/2d/254eef7a980af27ca00bd88b6eb1d0262dafa7" />
+  <file src=".git/objects/2f/c42da18e3ac854540865324e230250f9069e4a" />
+  <file src=".git/objects/31/4e3dfab4b7694f3414758fb1603e0618ec7ef5" />
+  <file src=".git/objects/31/70eef063915bf1ab9b7a3a36aedc10726b33a6" />
+  <file src=".git/objects/32/136a0a078baef1e0c079852d2fa77dc6be3bf9" />
+  <file src=".git/objects/32/7162a8c2467755b6411f1eba3997994a4ef305" />
+  <file src=".git/objects/35/46cb26d7c5ee5c08dcb9db661dea4ebeff1692" />
+  <file src=".git/objects/36/7840a992cf7d0ceba446cf9efeadc37b9fe631" />
+  <file src=".git/objects/39/18c74e446336be4151ea3bdad00f4d9e6df47a" />
+  <file src=".git/objects/39/6ca3beb14005adb89a0fa8556a8796f8c8a457" />
+  <file src=".git/objects/3a/c5f7373dd12b809cd6f36f4da70cca1ffd8775" />
+  <file src=".git/objects/3b/3c622eadaa3862d7c3e0b564b053c9783a0e91" />
+  <file src=".git/objects/3c/4efe206bd0e7230ad0ae8396a3c883c8207906" />
+  <file src=".git/objects/3c/6ff9e35bc5800eef964b12eb869cbcad50aacd" />
+  <file src=".git/objects/3c/d9e6cf8209ea46471e5fd566023b6318f43dac" />
+  <file src=".git/objects/3f/5183215c119e119e4d1091ecc914cfee8d9d86" />
+  <file src=".git/objects/3f/f1ba48b8ff861c3987fcc2162fc31fe0f79174" />
+  <file src=".git/objects/41/4e9afe42e8c49ad84ae18307f94b318e4d91c8" />
+  <file src=".git/objects/42/bc1a82abfa6c489da63f14c4229f5784e2f901" />
+  <file src=".git/objects/43/0d2104b2d1ad3c7510577273561323f482ff71" />
+  <file src=".git/objects/43/3b75d5b750295a7b2a0ef31627b67a98190626" />
+  <file src=".git/objects/44/b43d49c2f2114729a599444938b5eddfd5d05b" />
+  <file src=".git/objects/44/f8fa7bbf8a3e0b38be7de93a8890382ba6201b" />
+  <file src=".git/objects/48/00a715d49ca59a34d031d3b1f31d0696054a1f" />
+  <file src=".git/objects/4a/87f59db35142ddbb89b118d2edbe797723356e" />
+  <file src=".git/objects/4c/e80a533558db168f8f4491b95f41ddd1d5fad8" />
+  <file src=".git/objects/4e/40d32bbf2893b690e757560353db4b1283ee04" />
+  <file src=".git/objects/4e/67f9c9557dcaf7164d9d69b1cb38249ae34895" />
+  <file src=".git/objects/4f/1514ce3db1aa64e72b63845e9d4143acb8529d" />
+  <file src=".git/objects/4f/9d4c8bfa250a2fdeec070c92e2c64ebba056a1" />
+  <file src=".git/objects/50/9340fd563fb5c601cb952ab98c9471368eaff5" />
+  <file src=".git/objects/51/81bb892afbaed0997f260483fb022b1916ee16" />
+  <file src=".git/objects/51/b65b1d4d7c8082cfac1a64b9ed7a4120be8047" />
+  <file src=".git/objects/53/bf80b5a2e4906f5cd084e63dc039e2c88c7428" />
+  <file src=".git/objects/56/cc0332007b50bba2a34926bd7610ffa51b3f06" />
+  <file src=".git/objects/58/22c2fc600732ae9eae5cee6ac1accfc3f3ae55" />
+  <file src=".git/objects/5b/54e8b36085fdcb3c4882af60425255a6818576" />
+  <file src=".git/objects/5b/b95898881f5ce5491b76d615cd0beb69d61a5a" />
+  <file src=".git/objects/5c/63318b2ecad39fa6143e28c0e6a2fd9828710b" />
+  <file src=".git/objects/5d/b45421267db18f2661d1241256e967e6157d6d" />
+  <file src=".git/objects/5d/fbcd3cd76b9e0585a47abdf86497a86fb33f75" />
+  <file src=".git/objects/5f/aee43111876620335fd7441e2ddc8ebd9bc098" />
+  <file src=".git/objects/60/301ad6e8bc58888502b5304bf00c197be65616" />
+  <file src=".git/objects/60/5ebe6546daeec489fd899a14eab46801a7a3fc" />
+  <file src=".git/objects/62/1dab7d8eaa09977b16dd8a0eabf4526fb38a0d" />
+  <file src=".git/objects/63/1a6243057d498f35e5afd8b333448af1778adc" />
+  <file src=".git/objects/63/5c96677588bc5303aab3f8d890388f87461ab6" />
+  <file src=".git/objects/64/74d12bae40a1e69b2049ca01c1b50c7f4b18bc" />
+  <file src=".git/objects/6a/1782f7d75e3eee655efe5b8a48a12726b2d9e1" />
+  <file src=".git/objects/6a/dce41b60156e065159fd7e92253f07d90a27dd" />
+  <file src=".git/objects/6c/a0de728c78023d4a501b6d2506d380d1441bde" />
+  <file src=".git/objects/72/a50d4bd98dc3ef2f92216fc62735f9ba164932" />
+  <file src=".git/objects/72/bb5c1bf10aa8d0d003877fe9698d48f7a2a638" />
+  <file src=".git/objects/75/3f40cd60d09a6d9e572d95c402ec9dd870ef4a" />
+  <file src=".git/objects/75/41bb99d092f58b4e32d3a7db5bd3cdb26881d6" />
+  <file src=".git/objects/7d/6dd35f2d66b92df864e4464d161631217a96f4" />
+  <file src=".git/objects/7e/624d96ea917cd1a17f2022563781ed7898ee3d" />
+  <file src=".git/objects/81/27a1e127a41f050ba915d528294a0ce076d357" />
+  <file src=".git/objects/83/6650b7ff709cfa43c17901b94b6a6888f3b9a7" />
+  <file src=".git/objects/86/507a1429bdbd202df7a42c697709d2201815e7" />
+  <file src=".git/objects/88/eb57156cd3fc200beda640f4d19bd2b6e3d270" />
+  <file src=".git/objects/89/23ec6be9cba9aeb71502adaa78933e0e0ac9f4" />
+  <file src=".git/objects/89/6d8a42fbe2830d656b3eb3bbf0de87e528fa07" />
+  <file src=".git/objects/8c/aa0a34b6476233cac65fab6e73281296128b22" />
+  <file src=".git/objects/8d/ad2ee81196673ef6ac54a7e86f328c9197d5d0" />
+  <file src=".git/objects/8e/0c9784b9e8e5a6b44d47505a06ec2dbc883561" />
+  <file src=".git/objects/8f/9b798ab49adbebe442dae201340c7c4467746b" />
+  <file src=".git/objects/91/1fff37f99903616a4b6b8f2b82eb49e20aae2e" />
+  <file src=".git/objects/91/6e6bcded9110a7ae65833cbbabb9a7e8fcea0f" />
+  <file src=".git/objects/91/e3470e1645e6e8d0de6fe9f6b242f366e9a393" />
+  <file src=".git/objects/97/f6f6f28c2e7ca0249cf4fa73871ca285d2378b" />
+  <file src=".git/objects/98/4bf28f2c475fc8e98bcfd40899a2ef6a70ed7b" />
+  <file src=".git/objects/a2/8fbef7aa6106898265c369cd308c7cf510be01" />
+  <file src=".git/objects/a2/a0ed727e9ca0575cd1474f30bea7ee3b7a6239" />
+  <file src=".git/objects/a3/36b6457dbaadd00424fc24dcd6f5ce1454c835" />
+  <file src=".git/objects/a4/035de108e2a052a606f198435399c2f28b1fb1" />
+  <file src=".git/objects/a4/e9d192dd6ae1302f7736736c2a53cf18ac6f97" />
+  <file src=".git/objects/a5/0880e143a3aaf93315e2abad477ebb7d065aad" />
+  <file src=".git/objects/ac/e793c9bee85cd0622709046509d97850fd0683" />
+  <file src=".git/objects/ae/8ccc1cb6fbbac543606d51074170fcf74e214f" />
+  <file src=".git/objects/ae/dc683eaddec7838ee940f80bdff89399ece303" />
+  <file src=".git/objects/b0/0f0d8737a4902fb11e1c96976f265182a033b9" />
+  <file src=".git/objects/b1/cc5fce943a7002c8a660b166ea6f23456f3213" />
+  <file src=".git/objects/b2/51a24c1258a34484c2fc9e6900cbdd1352f325" />
+  <file src=".git/objects/b2/9f1ccdcfc587993562bec86b069a938c8393e2" />
+  <file src=".git/objects/b3/281910ab660da5c1bbacf271a3cb6600c3160e" />
+  <file src=".git/objects/b3/31ac04c01f9a25fcdd06ab6378241140f468ef" />
+  <file src=".git/objects/b4/62c81b645c3bdda4231623f2676ac6aa8ed3ee" />
+  <file src=".git/objects/b5/140eb86440024a6019e5517b9dd76f2e3f1273" />
+  <file src=".git/objects/b5/ec33515b30948aa6a7f02c450e491aeda1cc6b" />
+  <file src=".git/objects/b6/caf03b05e383c6fa5802e3aff82b9ac2f25633" />
+  <file src=".git/objects/b6/daa5c8d80a298508bb4b059475b1391535ece7" />
+  <file src=".git/objects/b7/d04a8e358bb44130e70c78e24446b8448021fe" />
+  <file src=".git/objects/b8/be05a956194bb4f2379e5d9ec9e3469c1087d3" />
+  <file src=".git/objects/bb/2357cd72c2851fded945073451b4dcc3e4ba42" />
+  <file src=".git/objects/bb/39ae2388f13950f778a8a4952205ee92f4360d" />
+  <file src=".git/objects/bb/80d388639a912af8dfa60fd23634c19def23b9" />
+  <file src=".git/objects/bb/8a17c03c2ad72312fa16a1a0e620b86b0c7299" />
+  <file src=".git/objects/bc/8843b79a21fca4351c4a8e83a8a975d31ce1d1" />
+  <file src=".git/objects/be/b8d56b1bc5066d673d34aea58db085313ae9d6" />
+  <file src=".git/objects/c0/b3423efcb8d01c31509e8926f37caefa30e0ce" />
+  <file src=".git/objects/c0/bac2b1c16f685fae6f55be512fcf8d063526dc" />
+  <file src=".git/objects/c1/185b473a7bea3444892512549624e284b2b5a7" />
+  <file src=".git/objects/c2/dc1dcd1c22868c1c7e25ff9940d44a2a7a7e53" />
+  <file src=".git/objects/c3/30b201660f9d5e3a61ac37020b4a05b94e697d" />
+  <file src=".git/objects/c3/ec8469e6c57b7ec3afe63c56c33f775f3cbe93" />
+  <file src=".git/objects/c4/61d5ca6b0d0998840402368b2deb0a1f2aa638" />
+  <file src=".git/objects/c5/869e0065d95cdb31d220a8bf86494a03997030" />
+  <file src=".git/objects/c5/86d11a59f05e632142fd8b2d57ee0e3cc00232" />
+  <file src=".git/objects/c6/286baf66fe8a2d3b05c15890b44ec188289b75" />
+  <file src=".git/objects/c9/c369af0258a43a37257c0733caaa0f4f9871da" />
+  <file src=".git/objects/c9/ced4b929890f141e1530e06f7b0b48d1bd2502" />
+  <file src=".git/objects/c9/fb134e672ca096a742233134b5827bd0a30a44" />
+  <file src=".git/objects/ca/b1dfb70dafe4e7b0a455f8278c8e6fb99cda48" />
+  <file src=".git/objects/cb/27c58e35cc65bffe1399f5852e4e4b8a2e7ec9" />
+  <file src=".git/objects/cb/679e9271e467167b432f0a47b27da3806b8f2c" />
+  <file src=".git/objects/cb/c8446f137058543d0961d4cca793979cdc2d5f" />
+  <file src=".git/objects/cf/8425028742f26791fa9722329ccd24f5fecfdf" />
+  <file src=".git/objects/d0/2d50e0f55ee92df58285a4aa05e5eaa76c19e9" />
+  <file src=".git/objects/d3/55c772bd345d92e8859a7484a9cad59f1244a7" />
+  <file src=".git/objects/d5/24b83ebb5a06aab6125f64b0921d2dacf9a0c5" />
+  <file src=".git/objects/d6/5ef36afad6e663cc626a5ca8bc7992765c15bc" />
+  <file src=".git/objects/db/3065666853a6fa85740479d972a2140e51741f" />
+  <file src=".git/objects/df/064285c8d200d4b2ccccb31dfa4f357b817487" />
+  <file src=".git/objects/e1/5840fbba1e5879b3dda85faaba275f63b65c88" />
+  <file src=".git/objects/e1/912d2a0686e05edfe34b5e7b0c09270ae5e098" />
+  <file src=".git/objects/e6/90f2c20ba0f73cf3a58df5fb8b11bee219e131" />
+  <file src=".git/objects/e6/9de29bb2d1d6434b8b29ae775ad8c2e48c5391" />
+  <file src=".git/objects/e6/fd21e00b0dd87dd24e1276d92c90f683e8080c" />
+  <file src=".git/objects/e8/11276aaf13b6653cf650bc8f2a9390c838400f" />
+  <file src=".git/objects/e9/e3d079efbfe8fafa1769b53258ba120fac669f" />
+  <file src=".git/objects/ea/7fe57bcc399efe44f2f063c94cbfc408cee5f8" />
+  <file src=".git/objects/ee/a5fe43f09461a95cc7faafcff6be3a54be0f0b" />
+  <file src=".git/objects/ee/ef7184af568b362e532ec099cae1fec8fb5c27" />
+  <file src=".git/objects/ef/79870872e9cd003b070c44b961c3f37ea3ab62" />
+  <file src=".git/objects/f2/25c6d1f39e4febfd0c43e585b2118640f1f322" />
+  <file src=".git/objects/f4/bc18e90df3731ff0eb7957a0273a0e5c806eb7" />
+  <file src=".git/objects/f6/472f6ab4bbaa82201de4751d999bf3fe6282ef" />
+  <file src=".git/objects/fc/4d4ea4d1b9ff9483fbc35ea85cd7241acec958" />
+  <file src=".git/refs/heads/master" />
+  <file src=".vs/Resources.sqlite" />
+  <file src=".vs/slnx.sqlite" />
+  <file src=".vs/VSWorkspaceState.json" />
+  <file src=".vs/Resources/v15/.suo" />
+  <file src=".vs/Resources/v15/Browse.VC.db" />
+  <script src="gluevehicle/gluevehicle.cs" type="server" lang="csharp" />
+  <file src="gluevehicle/gluevehicle.csproj" />
+  <file src="gluevehicle/meta.xml" />
+  <script src="gluevehicle/bin/Debug/glue.dll" type="server" lang="compiled" />
+  <file src="gluevehicle/bin/Debug/GTANetworkServer.exe" />
+  <script src="gluevehicle/bin/Debug/GTANetworkShared.dll" type="server" lang="compiled" />
+  <file src="gluevehicle/obj/Debug/build.force" />
+  <file src="gluevehicle/obj/Debug/CoreCompileInputs.cache" />
+  <file src="gluevehicle/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache" />
+  <script src="gluevehicle/obj/Debug/glue.dll" type="server" lang="compiled" />
+  <file src="gluevehicle/obj/Debug/gluevehicle.csproj.FileListAbsolute.txt" />
+  <file src="gluevehicle/obj/Debug/gluevehicle.csprojResolveAssemblyReference.cache" />
+  <script src="gluevehicle/obj/Debug/TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs" type="server" lang="csharp" />
+  <script src="gluevehicle/obj/Debug/TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs" type="server" lang="csharp" />
+  <script src="gluevehicle/obj/Debug/TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs" type="server" lang="csharp" />
+  <file src="gluevehicle/obj/Release/CoreCompileInputs.cache" />
+  <script src="gluevehicle/Properties/AssemblyInfo.cs" type="server" lang="csharp" />
+  <file src="GTAPilots/CivilSpawnMusic.mp3" />
+  <script src="GTAPilots/Clipboard.cs" type="server" lang="csharp" />
+  <script src="GTAPilots/FancyIntro.js" type="client" lang="javascript" />
+  <file src="GTAPilots/FlyUS_logo.png" />
+  <file src="GTAPilots/GTAPilots.csproj" />
+  <file src="GTAPilots/GTAPilots.csproj.user" />
+  <script src="GTAPilots/IncreaseWorldBorder.js" type="client" lang="javascript" />
+  <file src="GTAPilots/meta.xml" />
+  <script src="GTAPilots/PilotSkinSelector.js" type="client" lang="javascript" />
+  <script src="GTAPilots/RandomWeather.cs" type="server" lang="csharp" />
+  <script src="GTAPilots/RandomWeatherBackup.cs" type="server" lang="csharp" />
+  <script src="GTAPilots/RandomWeatherLite.cs" type="server" lang="csharp" />
+  <file src="GTAPilots/SAPCoA.png" />
+  <script src="GTAPilots/SkinSelector.js" type="client" lang="javascript" />
+  <script src="GTAPilots/SpawnMenuV2.js" type="client" lang="javascript" />
+  <script src="GTAPilots/Startup.cs" type="server" lang="csharp" />
+  <script src="GTAPilots/TestObjects.cs" type="server" lang="csharp" />
+  <script src="GTAPilots/Time.cs" type="server" lang="csharp" />
+  <file src="GTAPilots/tsconfig.json" />
+  <file src="GTAPilots/bin/Debug/GTANetworkServer.exe" />
+  <script src="GTAPilots/bin/Debug/GTANetworkShared.dll" type="server" lang="compiled" />
+  <script src="GTAPilots/bin/Debug/GTAPilots.dll" type="server" lang="compiled" />
+  <file src="GTAPilots/Music/CivilSpawnMusic.mp3" />
+  <file src="GTAPilots/obj/Debug/CoreCompileInputs.cache" />
+  <file src="GTAPilots/obj/Debug/DesignTimeResolveAssemblyReferences.cache" />
+  <file src="GTAPilots/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache" />
+  <file src="GTAPilots/obj/Debug/GTAPilots.csproj.FileListAbsolute.txt" />
+  <file src="GTAPilots/obj/Debug/GTAPilots.csproj.ResolveComReference.cache" />
+  <file src="GTAPilots/obj/Debug/GTAPilots.csprojResolveAssemblyReference.cache" />
+  <script src="GTAPilots/obj/Debug/GTAPilots.dll" type="server" lang="compiled" />
+  <script src="GTAPilots/obj/Debug/Interop.MSXML2.dll" type="server" lang="compiled" />
+  <script src="GTAPilots/obj/Debug/TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs" type="server" lang="csharp" />
+  <script src="GTAPilots/obj/Debug/TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs" type="server" lang="csharp" />
+  <script src="GTAPilots/obj/Debug/TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs" type="server" lang="csharp" />
+  <file src="GTAPilots/obj/Release/CoreCompileInputs.cache" />
+  <file src="GTAPilots/obj/Release/GTAPilots.csproj.ResolveComReference.cache" />
+  <script src="GTAPilots/obj/Release/Interop.MSXML2.dll" type="server" lang="compiled" />
+  <script src="GTAPilots/Properties/AssemblyInfo.cs" type="server" lang="csharp" />
+  <script src="GTAPilots/Properties/Settings.Designer.cs" type="server" lang="csharp" />
+  <file src="GTAPilots/Properties/Settings.settings" />
+  <script src="GTAPilots/types-gtanetwork/Enums.js" type="client" lang="javascript" />
+  <file src="GTAPilotsAdmin/acl.xml" />
+  <script src="GTAPilotsAdmin/Anticheat.js" type="client" lang="javascript" />
+  <script src="GTAPilotsAdmin/GTAPilotsAdmin.cs" type="server" lang="csharp" />
+  <file src="GTAPilotsAdmin/GTAPilotsAdmin.csproj" />
+  <script src="GTAPilotsAdmin/GTAPilotsAdmin.dll" type="server" lang="compiled" />
+  <script src="GTAPilotsAdmin/GuardDog.js" type="client" lang="javascript" />
+  <file src="GTAPilotsAdmin/meta.xml" />
+  <script src="GTAPilotsAdmin/ServerAntiCheat.cs" type="server" lang="csharp" />
+  <script src="GTAPilotsAdmin/System.Xml.dll" type="server" lang="compiled" />
+  <file src="GTAPilotsAdmin/tsconfig.json" />
+  <file src="GTAPilotsAdmin/bin/Debug/GTANetworkServer.exe" />
+  <script src="GTAPilotsAdmin/bin/Debug/GTANetworkShared.dll" type="server" lang="compiled" />
+  <script src="GTAPilotsAdmin/bin/Debug/GTAPilotsAdmin.dll" type="server" lang="compiled" />
+  <file src="GTAPilotsAdmin/obj/Debug/build.force" />
+  <file src="GTAPilotsAdmin/obj/Debug/CoreCompileInputs.cache" />
+  <file src="GTAPilotsAdmin/obj/Debug/DesignTimeResolveAssemblyReferences.cache" />
+  <file src="GTAPilotsAdmin/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache" />
+  <file src="GTAPilotsAdmin/obj/Debug/GTAPilotsAdmin.csproj.FileListAbsolute.txt" />
+  <file src="GTAPilotsAdmin/obj/Debug/GTAPilotsAdmin.csproj.ResolveComReference.cache" />
+  <file src="GTAPilotsAdmin/obj/Debug/GTAPilotsAdmin.csprojResolveAssemblyReference.cache" />
+  <script src="GTAPilotsAdmin/obj/Debug/GTAPilotsAdmin.dll" type="server" lang="compiled" />
+  <script src="GTAPilotsAdmin/obj/Debug/Interop.MSXML2.dll" type="server" lang="compiled" />
+  <script src="GTAPilotsAdmin/obj/Debug/TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs" type="server" lang="csharp" />
+  <script src="GTAPilotsAdmin/obj/Debug/TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs" type="server" lang="csharp" />
+  <script src="GTAPilotsAdmin/obj/Debug/TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs" type="server" lang="csharp" />
+  <file src="GTAPilotsAdmin/obj/Release/CoreCompileInputs.cache" />
+  <file src="GTAPilotsAdmin/obj/Release/GTAPilotsAdmin.csproj.ResolveComReference.cache" />
+  <script src="GTAPilotsAdmin/obj/Release/Interop.MSXML2.dll" type="server" lang="compiled" />
+  <script src="GTAPilotsAdmin/Properties/AssemblyInfo.cs" type="server" lang="csharp" />
+  <script src="GTAPilotsAdmin/types-gtanetwork/Enums.js" type="client" lang="javascript" />
+  <script src="GTAPilotsCommands/ColTeleports.js" type="client" lang="javascript" />
+  <script src="GTAPilotsCommands/Commands.cs" type="server" lang="csharp" />
+  <script src="GTAPilotsCommands/Countdown.js" type="client" lang="javascript" />
+  <file src="GTAPilotsCommands/GTAPilotsCommands.csproj" />
+  <file src="GTAPilotsCommands/meta.xml" />
+  <script src="GTAPilotsCommands/NavigationBeacons.js" type="client" lang="javascript" />
+  <script src="GTAPilotsCommands/Scaleforms.js" type="client" lang="javascript" />
+  <script src="GTAPilotsCommands/takeoffandlanding.js" type="client" lang="javascript" />
+  <script src="GTAPilotsCommands/Timer.js" type="client" lang="javascript" />
+  <file src="GTAPilotsCommands/tsconfig.json" />
+  <script src="GTAPilotsCommands/bin/Debug/Commands.dll" type="server" lang="compiled" />
+  <file src="GTAPilotsCommands/bin/Debug/GTANetworkServer.exe" />
+  <script src="GTAPilotsCommands/bin/Debug/GTANetworkShared.dll" type="server" lang="compiled" />
+  <script src="GTAPilotsCommands/bin/Debug/Insight.Database.Configuration.dll" type="server" lang="compiled" />
+  <file src="GTAPilotsCommands/bin/Debug/Insight.Database.Configuration.xml" />
+  <script src="GTAPilotsCommands/bin/Debug/Insight.Database.dll" type="server" lang="compiled" />
+  <script src="GTAPilotsCommands/bin/Debug/Insight.Database.Providers.Default.dll" type="server" lang="compiled" />
+  <file src="GTAPilotsCommands/bin/Debug/Insight.Database.Providers.Default.xml" />
+  <script src="GTAPilotsCommands/bin/Debug/Insight.Database.Providers.MySql.dll" type="server" lang="compiled" />
+  <file src="GTAPilotsCommands/bin/Debug/Insight.Database.Providers.MySql.xml" />
+  <file src="GTAPilotsCommands/bin/Debug/Insight.Database.xml" />
+  <script src="GTAPilotsCommands/bin/Debug/MySql.Data.dll" type="server" lang="compiled" />
+  <file src="GTAPilotsCommands/obj/Debug/build.force" />
+  <file src="GTAPilotsCommands/obj/Debug/Commands.csproj.FileListAbsolute.txt" />
+  <file src="GTAPilotsCommands/obj/Debug/Commands.csprojResolveAssemblyReference.cache" />
+  <script src="GTAPilotsCommands/obj/Debug/Commands.dll" type="server" lang="compiled" />
+  <file src="GTAPilotsCommands/obj/Debug/CoreCompileInputs.cache" />
+  <file src="GTAPilotsCommands/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache" />
+  <file src="GTAPilotsCommands/obj/Debug/GTAPilotsCommands.csproj.FileListAbsolute.txt" />
+  <file src="GTAPilotsCommands/obj/Debug/GTAPilotsCommands.csprojResolveAssemblyReference.cache" />
+  <script src="GTAPilotsCommands/obj/Debug/TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs" type="server" lang="csharp" />
+  <script src="GTAPilotsCommands/obj/Debug/TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs" type="server" lang="csharp" />
+  <script src="GTAPilotsCommands/obj/Debug/TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs" type="server" lang="csharp" />
+  <file src="GTAPilotsCommands/obj/Release/CoreCompileInputs.cache" />
+  <script src="GTAPilotsCommands/Properties/AssemblyInfo.cs" type="server" lang="csharp" />
+  <script src="GTAPilotsCommands/types-gtanetwork/Enums.js" type="client" lang="javascript" />
+  <file src="GTAPilotsPeds/GTAPilotsPeds.csproj" />
+  <script src="GTAPilotsPeds/PedsServer.cs" type="server" lang="csharp" />
+  <file src="GTAPilotsPeds/tsconfig.json" />
+  <file src="GTAPilotsPeds/obj/Debug/CoreCompileInputs.cache" />
+  <file src="GTAPilotsPeds/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache" />
+  <script src="GTAPilotsPeds/obj/Debug/TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs" type="server" lang="csharp" />
+  <script src="GTAPilotsPeds/obj/Debug/TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs" type="server" lang="csharp" />
+  <script src="GTAPilotsPeds/obj/Debug/TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs" type="server" lang="csharp" />
+  <script src="GTAPilotsPeds/Properties/AssemblyInfo.cs" type="server" lang="csharp" />
+  <script src="GTAPilotsScoreboard/FlyingScore.cs" type="server" lang="csharp" />
+  <script src="GTAPilotsScoreboard/FlyingScore.js" type="client" lang="javascript" />
+  <file src="GTAPilotsScoreboard/GTAPilotsScoreboard.csproj" />
+  <file src="GTAPilotsScoreboard/meta.xml" />
+  <script src="GTAPilotsScoreboard/scoreboard.cs" type="server" lang="csharp" />
+  <script src="GTAPilotsScoreboard/ScoreboardClient.js" type="client" lang="javascript" />
+  <script src="GTAPilotsScoreboard/scoreboard_local.js" type="client" lang="javascript" />
+  <file src="GTAPilotsScoreboard/tsconfig.json" />
+  <file src="GTAPilotsScoreboard/bin/Debug/GTANetworkServer.exe" />
+  <script src="GTAPilotsScoreboard/bin/Debug/GTANetworkShared.dll" type="server" lang="compiled" />
+  <script src="GTAPilotsScoreboard/bin/Debug/GTAPilotsScoreboard.dll" type="server" lang="compiled" />
+  <file src="GTAPilotsScoreboard/obj/Debug/build.force" />
+  <file src="GTAPilotsScoreboard/obj/Debug/CoreCompileInputs.cache" />
+  <file src="GTAPilotsScoreboard/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache" />
+  <file src="GTAPilotsScoreboard/obj/Debug/GTAPilotsScoreboard.csproj.FileListAbsolute.txt" />
+  <file src="GTAPilotsScoreboard/obj/Debug/GTAPilotsScoreboard.csprojResolveAssemblyReference.cache" />
+  <script src="GTAPilotsScoreboard/obj/Debug/GTAPilotsScoreboard.dll" type="server" lang="compiled" />
+  <script src="GTAPilotsScoreboard/obj/Debug/TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs" type="server" lang="csharp" />
+  <script src="GTAPilotsScoreboard/obj/Debug/TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs" type="server" lang="csharp" />
+  <script src="GTAPilotsScoreboard/obj/Debug/TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs" type="server" lang="csharp" />
+  <file src="GTAPilotsScoreboard/obj/Release/CoreCompileInputs.cache" />
+  <script src="GTAPilotsScoreboard/Properties/AssemblyInfo.cs" type="server" lang="csharp" />
+  <script src="GTAPilotsScoreboard/types-gtanetwork/Enums.js" type="client" lang="javascript" />
+  <script src="GTAPilotsSpawn/FancyIntro.js" type="client" lang="javascript" />
+  <file src="GTAPilotsSpawn/GTAPilotsSpawn.csproj" />
+  <file src="GTAPilotsSpawn/meta.xml" />
+  <script src="GTAPilotsSpawn/PilotSkinSelector.js" type="client" lang="javascript" />
+  <script src="GTAPilotsSpawn/PilotSkinSelectorBackup.js" type="client" lang="javascript" />
+  <script src="GTAPilotsSpawn/Spawn.cs" type="server" lang="csharp" />
+  <script src="GTAPilotsSpawn/Timer.js" type="client" lang="javascript" />
+  <file src="GTAPilotsSpawn/tsconfig.json" />
+  <file src="GTAPilotsSpawn/bin/Debug/GTANetworkServer.exe" />
+  <script src="GTAPilotsSpawn/bin/Debug/GTANetworkShared.dll" type="server" lang="compiled" />
+  <script src="GTAPilotsSpawn/bin/Debug/GTAPilotsSpawn.dll" type="server" lang="compiled" />
+  <file src="GTAPilotsSpawn/obj/Debug/build.force" />
+  <file src="GTAPilotsSpawn/obj/Debug/CoreCompileInputs.cache" />
+  <file src="GTAPilotsSpawn/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache" />
+  <file src="GTAPilotsSpawn/obj/Debug/GTAPilotsSpawn.csproj.FileListAbsolute.txt" />
+  <file src="GTAPilotsSpawn/obj/Debug/GTAPilotsSpawn.csprojResolveAssemblyReference.cache" />
+  <script src="GTAPilotsSpawn/obj/Debug/GTAPilotsSpawn.dll" type="server" lang="compiled" />
+  <script src="GTAPilotsSpawn/obj/Debug/TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs" type="server" lang="csharp" />
+  <script src="GTAPilotsSpawn/obj/Debug/TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs" type="server" lang="csharp" />
+  <script src="GTAPilotsSpawn/obj/Debug/TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs" type="server" lang="csharp" />
+  <file src="GTAPilotsSpawn/obj/Release/CoreCompileInputs.cache" />
+  <script src="GTAPilotsSpawn/Properties/AssemblyInfo.cs" type="server" lang="csharp" />
+  <script src="GTAPilotsSpawn/types-gtanetwork/Enums.js" type="client" lang="javascript" />
+  <script src="GTAPilotsSpawn/types-gtanetwork/Timer.js" type="client" lang="javascript" />
+  <file src="GTAPilotsVehicles/GTAPilotsVehicles.csproj" />
+  <file src="GTAPilotsVehicles/meta.xml" />
+  <script src="GTAPilotsVehicles/TrainSpawn.js" type="client" lang="javascript" />
+  <script src="GTAPilotsVehicles/TrainTest.cs" type="server" lang="csharp" />
+  <script src="GTAPilotsVehicles/VehicleDespawn.cs" type="server" lang="csharp" />
+  <script src="GTAPilotsVehicles/VehicleSpawn.cs" type="server" lang="csharp" />
+  <file src="GTAPilotsVehicles/bin/Debug/GTANetworkServer.exe" />
+  <script src="GTAPilotsVehicles/bin/Debug/GTANetworkShared.dll" type="server" lang="compiled" />
+  <script src="GTAPilotsVehicles/bin/Debug/GTAPilotsVehicles.dll" type="server" lang="compiled" />
+  <file src="GTAPilotsVehicles/obj/Debug/build.force" />
+  <file src="GTAPilotsVehicles/obj/Debug/CoreCompileInputs.cache" />
+  <file src="GTAPilotsVehicles/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache" />
+  <file src="GTAPilotsVehicles/obj/Debug/GTAPilotsVehicles.csproj.FileListAbsolute.txt" />
+  <file src="GTAPilotsVehicles/obj/Debug/GTAPilotsVehicles.csprojResolveAssemblyReference.cache" />
+  <script src="GTAPilotsVehicles/obj/Debug/GTAPilotsVehicles.dll" type="server" lang="compiled" />
+  <script src="GTAPilotsVehicles/obj/Debug/TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs" type="server" lang="csharp" />
+  <script src="GTAPilotsVehicles/obj/Debug/TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs" type="server" lang="csharp" />
+  <script src="GTAPilotsVehicles/obj/Debug/TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs" type="server" lang="csharp" />
+  <file src="GTAPilotsVehicles/obj/Release/CoreCompileInputs.cache" />
+  <script src="GTAPilotsVehicles/Properties/AssemblyInfo.cs" type="server" lang="csharp" />
+  <script src="GTAPilotsVehicles/types-gtanetwork/Enums.js" type="client" lang="javascript" />
+  <file src="HUD/HUD.csproj" />
+  <script src="HUD/Hud.js" type="client" lang="javascript" />
+  <file src="HUD/meta.xml" />
+  <file src="HUD/tsconfig.json" />
+  <file src="HUD/bin/Debug/GTANetworkServer.exe" />
+  <script src="HUD/bin/Debug/GTANetworkShared.dll" type="server" lang="compiled" />
+  <script src="HUD/bin/Debug/HUD.dll" type="server" lang="compiled" />
+  <file src="HUD/obj/Debug/build.force" />
+  <file src="HUD/obj/Debug/CoreCompileInputs.cache" />
+  <file src="HUD/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache" />
+  <file src="HUD/obj/Debug/HUD.csproj.FileListAbsolute.txt" />
+  <file src="HUD/obj/Debug/HUD.csprojResolveAssemblyReference.cache" />
+  <script src="HUD/obj/Debug/HUD.dll" type="server" lang="compiled" />
+  <script src="HUD/obj/Debug/TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs" type="server" lang="csharp" />
+  <script src="HUD/obj/Debug/TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs" type="server" lang="csharp" />
+  <script src="HUD/obj/Debug/TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs" type="server" lang="csharp" />
+  <file src="HUD/obj/Release/CoreCompileInputs.cache" />
+  <script src="HUD/Properties/AssemblyInfo.cs" type="server" lang="csharp" />
+  <script src="HUD/types-gtanetwork/Enums.js" type="client" lang="javascript" />
+  <file src="packages/BCrypt.Net.0.1.0/BCrypt.Net.0.1.0.nupkg" />
+  <script src="packages/BCrypt.Net.0.1.0/lib/net35/BCrypt.Net.dll" type="server" lang="compiled" />
+  <file src="packages/BCrypt.Net.0.1.0/lib/net35/BCrypt.Net.XML" />
+  <file src="packages/gtanetwork.api.0.1.517.602/gtanetwork.api.0.1.517.602.nupkg" />
+  <file src="packages/gtanetwork.api.0.1.517.602/lib/GTANetworkServer.exe" />
+  <script src="packages/gtanetwork.api.0.1.517.602/lib/GTANetworkShared.dll" type="server" lang="compiled" />
+  <file src="packages/Insight.Database.5.2.10/Insight.Database.5.2.10.nupkg" />
+  <script src="packages/Insight.Database.5.2.10/lib/NET35/Insight.Database.Configuration.dll" type="server" lang="compiled" />
+  <file src="packages/Insight.Database.5.2.10/lib/NET35/Insight.Database.Configuration.XML" />
+  <script src="packages/Insight.Database.5.2.10/lib/NET35/Insight.Database.Providers.Default.dll" type="server" lang="compiled" />
+  <file src="packages/Insight.Database.5.2.10/lib/NET35/Insight.Database.Providers.Default.XML" />
+  <script src="packages/Insight.Database.5.2.10/lib/NET40/Insight.Database.Configuration.dll" type="server" lang="compiled" />
+  <file src="packages/Insight.Database.5.2.10/lib/NET40/Insight.Database.Configuration.XML" />
+  <script src="packages/Insight.Database.5.2.10/lib/NET40/Insight.Database.Providers.Default.dll" type="server" lang="compiled" />
+  <file src="packages/Insight.Database.5.2.10/lib/NET40/Insight.Database.Providers.Default.XML" />
+  <script src="packages/Insight.Database.5.2.10/lib/NET45/Insight.Database.Configuration.dll" type="server" lang="compiled" />
+  <file src="packages/Insight.Database.5.2.10/lib/NET45/Insight.Database.Configuration.XML" />
+  <script src="packages/Insight.Database.5.2.10/lib/NET45/Insight.Database.Providers.Default.dll" type="server" lang="compiled" />
+  <file src="packages/Insight.Database.5.2.10/lib/NET45/Insight.Database.Providers.Default.XML" />
+  <file src="packages/Insight.Database.Core.5.2.10/Insight.Database.Core.5.2.10.nupkg" />
+  <script src="packages/Insight.Database.Core.5.2.10/lib/NET35/Insight.Database.dll" type="server" lang="compiled" />
+  <file src="packages/Insight.Database.Core.5.2.10/lib/NET35/Insight.Database.XML" />
+  <script src="packages/Insight.Database.Core.5.2.10/lib/NET40/Insight.Database.dll" type="server" lang="compiled" />
+  <file src="packages/Insight.Database.Core.5.2.10/lib/NET40/Insight.Database.XML" />
+  <script src="packages/Insight.Database.Core.5.2.10/lib/NET45/Insight.Database.dll" type="server" lang="compiled" />
+  <file src="packages/Insight.Database.Core.5.2.10/lib/NET45/Insight.Database.XML" />
+  <file src="packages/Insight.Database.Providers.MySql.5.2.10/Insight.Database.Providers.MySql.5.2.10.nupkg" />
+  <script src="packages/Insight.Database.Providers.MySql.5.2.10/lib/Insight.Database.Providers.MySql.dll" type="server" lang="compiled" />
+  <file src="packages/Insight.Database.Providers.MySql.5.2.10/lib/Insight.Database.Providers.MySql.XML" />
+  <file src="packages/MySql.Data.6.9.9/CHANGES" />
+  <file src="packages/MySql.Data.6.9.9/MySql.Data.6.9.9.nupkg" />
+  <file src="packages/MySql.Data.6.9.9/Readme.txt" />
+  <file src="packages/MySql.Data.6.9.9/content/app.config.transform" />
+  <file src="packages/MySql.Data.6.9.9/content/web.config.transform" />
+  <script src="packages/MySql.Data.6.9.9/lib/net40/MySql.Data.dll" type="server" lang="compiled" />
+  <script src="packages/MySql.Data.6.9.9/lib/net45/MySql.Data.dll" type="server" lang="compiled" />
+  <file src="packages/types-gtanetwork.0.1.12/types-gtanetwork.0.1.12.nupkg" />
+  <file src="packages/types-gtanetwork.0.1.7/types-gtanetwork.0.1.7.nupkg" />
+  <file src="PlayerblipsPro/.gitignore" />
+  <file src="PlayerblipsPro/meta.xml" />
+  <script src="PlayerblipsPro/Playerblips.cs" type="server" lang="csharp" />
+  <script src="PlayerblipsPro/playerblips.js" type="client" lang="javascript" />
+  <file src="PlayerblipsPro/PlayerblipsPro.csproj" />
+  <file src="PlayerblipsPro/Readme.md" />
+  <file src="PlayerblipsPro/Screenshot.jpg" />
+  <file src="PlayerblipsPro/tsconfig.json" />
+  <file src="PlayerblipsPro/bin/Debug/GTANetworkServer.exe" />
+  <script src="PlayerblipsPro/bin/Debug/GTANetworkShared.dll" type="server" lang="compiled" />
+  <script src="PlayerblipsPro/bin/Debug/PlayerblipsPro.dll" type="server" lang="compiled" />
+  <file src="PlayerblipsPro/obj/Debug/CoreCompileInputs.cache" />
+  <file src="PlayerblipsPro/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache" />
+  <file src="PlayerblipsPro/obj/Debug/PlayerblipsPro.csproj.FileListAbsolute.txt" />
+  <script src="PlayerblipsPro/obj/Debug/PlayerblipsPro.dll" type="server" lang="compiled" />
+  <script src="PlayerblipsPro/obj/Debug/TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs" type="server" lang="csharp" />
+  <script src="PlayerblipsPro/obj/Debug/TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs" type="server" lang="csharp" />
+  <script src="PlayerblipsPro/obj/Debug/TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs" type="server" lang="csharp" />
+  <file src="PlayerblipsPro/obj/Release/CoreCompileInputs.cache" />
+  <script src="PlayerblipsPro/Properties/AssemblyInfo.cs" type="server" lang="csharp" />
+  <script src="PlayerblipsPro/types-gtanetwork/Enums.js" type="client" lang="javascript" />
+  <file src="Spawn/CivilSpawnMusic.mp3" />
+  <script src="Spawn/FancyIntro.js" type="client" lang="javascript" />
+  <file src="Spawn/meta.xml" />
+  <script src="Spawn/PilotSkinSelector.js" type="client" lang="javascript" />
+  <script src="Spawn/Spawn.cs" type="server" lang="csharp" />
+  <file src="TrainTestProject/Source.cpp" />
+  <file src="TrainTestProject/TrainTestProject.vcxproj" />
+  <file src="TrainTestProject/TrainTestProject.vcxproj.filters" />
+  <script src="UserDatabase/Main.cs" type="server" lang="csharp" />
+  <file src="UserDatabase/meta.xml" />
+  <file src="UserDatabase/UserDatabase.csproj" />
+  <script src="UserDatabase/bin/Debug/BCrypt.Net.dll" type="server" lang="compiled" />
+  <file src="UserDatabase/bin/Debug/BCrypt.Net.xml" />
+  <file src="UserDatabase/bin/Debug/GTANetworkServer.exe" />
+  <script src="UserDatabase/bin/Debug/GTANetworkShared.dll" type="server" lang="compiled" />
+  <script src="UserDatabase/bin/Debug/Insight.Database.Configuration.dll" type="server" lang="compiled" />
+  <file src="UserDatabase/bin/Debug/Insight.Database.Configuration.xml" />
+  <script src="UserDatabase/bin/Debug/Insight.Database.dll" type="server" lang="compiled" />
+  <script src="UserDatabase/bin/Debug/Insight.Database.Providers.Default.dll" type="server" lang="compiled" />
+  <file src="UserDatabase/bin/Debug/Insight.Database.Providers.Default.xml" />
+  <script src="UserDatabase/bin/Debug/Insight.Database.Providers.MySql.dll" type="server" lang="compiled" />
+  <file src="UserDatabase/bin/Debug/Insight.Database.Providers.MySql.xml" />
+  <file src="UserDatabase/bin/Debug/Insight.Database.xml" />
+  <script src="UserDatabase/bin/Debug/MySql.Data.dll" type="server" lang="compiled" />
+  <script src="UserDatabase/bin/Debug/UserDatabase.dll" type="server" lang="compiled" />
+  <file src="UserDatabase/obj/Debug/build.force" />
+  <file src="UserDatabase/obj/Debug/CoreCompileInputs.cache" />
+  <file src="UserDatabase/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache" />
+  <script src="UserDatabase/obj/Debug/TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs" type="server" lang="csharp" />
+  <script src="UserDatabase/obj/Debug/TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs" type="server" lang="csharp" />
+  <script src="UserDatabase/obj/Debug/TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs" type="server" lang="csharp" />
+  <file src="UserDatabase/obj/Debug/UserDatabase.csproj.FileListAbsolute.txt" />
+  <file src="UserDatabase/obj/Debug/UserDatabase.csprojResolveAssemblyReference.cache" />
+  <script src="UserDatabase/obj/Debug/UserDatabase.dll" type="server" lang="compiled" />
+  <file src="UserDatabase/obj/Release/CoreCompileInputs.cache" />
+  <script src="UserDatabase/Properties/AssemblyInfo.cs" type="server" lang="csharp" />
+</meta>

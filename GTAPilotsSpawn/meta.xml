@@ -1,13 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <meta>
-  
 
+  <file src="resource/Music/CivilSpawnMusic.wav" />
+  <file src="resource/Banner/spawnui_title_Epsilon.jpg" />
   
   <script src="Spawn.cs" type="server" lang="csharp" />
+
+  <script src="FancyIntro.js" type="client" lang="javascript" />
   
   <info name="SkinSelector" description="Select Your Skin" />
-  <script src="PilotSkinSelector.js" type="client" lang="javascript" />
-
-  <file src="CivilSpawnMusic.mp3" />
-
+  <script src="PilotSkinSelectorv2.js" type="client" lang="javascript" />  
 </meta>

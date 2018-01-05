@@ -1,5 +1,5 @@
-/// <reference path ="\types-gtanetwork\index.d.ts" />
 "use strict";
+/// <reference path ="\types-gt-mp\index.d.ts" />
 var insideBottom = null;
 var insideTop = null;
 var exit = null;

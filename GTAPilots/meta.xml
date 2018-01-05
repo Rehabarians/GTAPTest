@@ -1,14 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <meta>
-    
+
+  <script src="IncreaseWorldBorder.js" type="client" lang="javascript" />
+  <script src="ClientWeather.js" type="client" lang="javascript" />
+
   <info name="Startup" description="Flying Startup" />
   <script src="Startup.cs" type="server" lang="csharp" />
 
   <script src="TestObjects.cs" type="server" lang="csharp" />
   
   <script src="Time.cs" type="server" lang="csharp" />
-  <script src="RandomWeather.cs" type="server" lang="csharp" />
-
-  <assembly ref="GTAPilots.dll" />
+  <script src="RandomWeatherv2.cs" type="server" lang="csharp" />
 
 </meta>

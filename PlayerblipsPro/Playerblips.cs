@@ -1,5 +1,9 @@
-﻿using GTANetworkServer;
-using GTANetworkShared;
+﻿using GrandTheftMultiplayer.Server.API;
+using GrandTheftMultiplayer.Server;
+using GrandTheftMultiplayer.Server.Elements;
+using GrandTheftMultiplayer.Shared;
+using GrandTheftMultiplayer.Server.Constant;
+using GrandTheftMultiplayer.Shared.Math;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -266,12 +270,12 @@ namespace playerblips_pro
 			}
 		}
 
-		private void API_onPlayerEnterVehicle(Client player, NetHandle vehicle)
+		private void API_onPlayerEnterVehicle(Client player, NetHandle vehicle, int targetSeat)
 		{
 			UpdateBlipForVehicle(vehicle);
 		}
 
-		private void API_onPlayerExitVehicle(Client player, NetHandle vehicle)
+		private void API_onPlayerExitVehicle(Client player, NetHandle vehicle, int fromSeat)
 		{
 			UpdateBlipForVehicle(vehicle);
 

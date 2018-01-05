@@ -1,4 +1,4 @@
-﻿/// <reference path ="\types-gtanetwork\index.d.ts" />
+﻿/// <reference path ="\types-gt-mp\Definitions\index.d.ts" />
 
 var resX = API.getScreenResolutionMantainRatio().Width;
 var resY = API.getScreenResolutionMantainRatio().Height;

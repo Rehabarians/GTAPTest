@@ -1,4 +1,4 @@
-﻿/// <reference path ="\types-gtanetwork\index.d.ts" />
+﻿/// <reference path ="\types-gt-mp\Definitions\index.d.ts" />
 
 API.onResourceStart.connect(function () {
 
@@ -7,7 +7,7 @@ API.onResourceStart.connect(function () {
 
 });
 
-var trainDriver = API.createPed(411102470, new Vector3(613, 6438, 31), 0);
+//var trainDriver = API.createPed(411102470, new Vector3(613, 6438, 31), 0);
 var iLocal_0 = null;
 var iLocal_4 = 0;
 var fLocal_5 = 0;
@@ -19,9 +19,9 @@ var iLocal_9 = false;
 function Main() {
     //API.onUpdate.connect(function () {
     API.sendChatMessage("Main Started");
-    API.setEntityCollissionless(trainDriver, false);
-    API.setEntityInvincible(trainDriver, false);
-    API.setEntityPositionFrozen(trainDriver, false);
+    //API.setEntityCollissionless(trainDriver, false);
+    //API.setEntityInvincible(trainDriver, false);
+    //API.setEntityPositionFrozen(trainDriver, false);
 
     fLocal_5 = 5;
     iLocal_6 = 1;
@@ -38,10 +38,10 @@ function Main() {
     API.callNative("SET_RANDOM_TRAINS", false);
     API.callNative("DELETE_ALL_TRAINS");
 
-    if (API.returnNative("IS_PED_INJURED", 8, trainDriver) === false) {
+    //if (API.returnNative("IS_PED_INJURED", 8, trainDriver) === false) {
 
-        API.sendChatMessage("Ped not Injured");
-    }
+    //    API.sendChatMessage("Ped not Injured");
+    //}
 
     API.loadModel(1030400667) //Freight
     API.loadModel(184361638) //FreightCar
@@ -50,6 +50,7 @@ function Main() {
     API.loadModel(240201337) //FreightCont2
     //API.loadModel(586013744) //TankerCar
     API.loadModel(-777275802) //FreightTrailer
+    API.loadModel(411102470);
 
     iLocal_7 = true;
     API.sendChatMessage("Train Loading");
@@ -62,8 +63,8 @@ function Main() {
     while (API.returnNative("HAS_MODEL_LOADED", 8, 1030400667) === true || API.returnNative("HAS_MODEL_LOADED", 8, 184361638) === true || API.returnNative("HAS_MODEL_LOADED", 8, 642617954) === true || API.returnNative("HAS_MODEL_LOADED", 8, 920453016) === true || API.returnNative("HAS_MODEL_LOADED", 8, 240201337) === true || API.returnNative("HAS_MODEL_LOADED", 8, 586013744) === true || API.returnNative("HAS_MODEL_LOADED", 8, -777275802) === true) {
         API.sendChatMessage("Train Loaded Fully");
 
-        if (API.returnNative("IS_PED_INJURED", 8, trainDriver) === false) {
-            API.sendChatMessage("Ped Still Not Injured");
+        //if (API.returnNative("IS_PED_INJURED", 8, trainDriver) === false) {
+        //    API.sendChatMessage("Ped Still Not Injured");
 
             if (iLocal_7 === true) {
 
@@ -81,7 +82,7 @@ function Main() {
                 //    API.sendChatMessage("iLocal_0 Exists: " + API.doesEntityExist(iLocal_0));
                 //    API.sendChatMessage("setting ped into train");
 
-                //    //API.callNative("CREATE_PED_INSIDE_VEHICLE", iLocal_0, 26, trainDriver, -1, true, true);
+                //    API.callNative("CREATE_PED_INSIDE_VEHICLE", iLocal_0, 26, trainDriver, -1, true, true);
 
                 //    API.callNative("SET_PED_INTO_VEHICLE", trainDriver, iLocal_0, -1)
                 //    iLocal_7 = false;
@@ -91,17 +92,14 @@ function Main() {
                 //});
                 API.sendChatMessage("Creating Mission Train");
                 iLocal_0 = API.returnNative("CREATE_MISSION_TRAIN", 9, 0, 613, 6438, 32, true);
-                API.sendChatMessage("iLocal_0 Entity Type is: " + API.returnNative("GET_ENTITY_TYPE", 0, iLocal_0));
-                API.sendChatMessage("iLocal_0 Exists: " + API.doesEntityExist(iLocal_0));
-                API.sendChatMessage("setting ped into train");
-
+                API.triggerServerEvent("Train", iLocal_0);
                 //API.callNative("CREATE_PED_INSIDE_VEHICLE", iLocal_0, 26, trainDriver, -1, true, true);
-
-                API.callNative("SET_PED_INTO_VEHICLE", trainDriver, iLocal_0, -1)
+                
+                //API.callNative("SET_PED_INTO_VEHICLE", trainDriver, iLocal_0, -1)
                 iLocal_7 = false;   
 
                 API.sendChatMessage("iLocal_7 Completed");
-                API.setPlayerIntoVehicle(iLocal_0, 0);
+                //API.setPlayerIntoVehicle(iLocal_0, 0);
             }
             API.sendChatMessage("After iLocal_7");
 
@@ -115,6 +113,8 @@ function Main() {
                 API.sendChatMessage("Train is Driveable");
                 API.callNative("SET_TRAIN_SPEED", iLocal_0, 5);
                 API.callNative("SET_TRAIN_CRUISE_SPEED", iLocal_0, 5);
+                API.callNative("SET_RANDOM_TRAINS", true);
+
             }
             API.sendChatMessage("After Driveable and dead");
 
@@ -124,7 +124,7 @@ function Main() {
             }
             API.sendChatMessage("After iLocal_8");
             API.sendChatMessage("Function Complete");
-        }
+        //}
         API.sendChatMessage("Breaking While statement");
         break;
     }
@@ -132,7 +132,7 @@ function Main() {
     
     //});
 }
-API.sendChatMessage("Does iLocal_0 still exist" + API.doesEntityExist(iLocal_0));
+//API.sendChatMessage("Does iLocal_0 still exist" + API.doesEntityExist(iLocal_0));
 function func_1() {
     API.callNative("SET_RANDOM_TRAINS", true);
     API.callNative("TERMINATE_THIS_THREAD");

@@ -1,0 +1,5 @@
+<meta>
+	<info name="coordenates" author="Firesky" description="Very simple script to save and read coordenates to/from .txt file" />
+
+	<script src="coordenates.cs" type="server" lang="csharp" />
+</meta>

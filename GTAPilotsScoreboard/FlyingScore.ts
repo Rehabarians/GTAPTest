@@ -1,4 +1,4 @@
-﻿/// <reference path ="\types-gtanetwork\index.d.ts" />
+﻿/// <reference path ="\types-gt-mp\Definitions\index.d.ts" />
 
 API.onUpdate.connect(function () {
 
@@ -6,9 +6,6 @@ API.onUpdate.connect(function () {
     if (!API.getHudVisible()) {
         return;
     }
-
-    API.triggerServerEvent("WriteScore");
-    API.triggerServerEvent("Update");
 
     // Always check if the entity has the data we plan to access
     if (API.hasEntitySyncedData(API.getLocalPlayer(), "Local_Score")) {

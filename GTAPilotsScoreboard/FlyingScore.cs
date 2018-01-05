@@ -1,27 +1,38 @@
-﻿using GTANetworkServer;
-using GTANetworkShared;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Timers;
+using GrandTheftMultiplayer.Server;
+using GrandTheftMultiplayer.Server.API;
+using GrandTheftMultiplayer.Server.Constant;
+using GrandTheftMultiplayer.Server.Elements;
+using GrandTheftMultiplayer.Server.Extensions;
+using GrandTheftMultiplayer.Server.Managers;
+using GrandTheftMultiplayer.Server.Models;
+using GrandTheftMultiplayer.Server.Util;
+using GrandTheftMultiplayer.Shared;
+using GrandTheftMultiplayer.Shared.Gta;
+using GrandTheftMultiplayer.Shared.Math;
 
 namespace GTAPilots
 {
     public class FlyingScore : Script
     {
-        int Score = 0;
+        Timer Captain;
+        Timer FirstOfficer;
 
         public FlyingScore()
         {
 
             API.onResourceStart += ResourceStart;
-            API.onPlayerConnected += PlayerConnected;
+            //API.onPlayerConnected += PlayerConnected;
+            API.onPlayerFinishedDownload += OnPlayerFinishedDownload;
             API.onEntityDataChange += OnEntityDataChange;
-            API.onClientEventTrigger += ClientEventTrigger;
-
+            API.onPlayerEnterVehicle += OnPlayerEnterVehicle;
+            API.onPlayerExitVehicle += OnPlayerExitVehicle;
+            API.onPlayerChangeVehicleSeat += OnPlayerChangeVehicleSeat;
+            API.onPlayerDisconnected += OnPlayerDisconnected;
         }
 
         public void ResourceStart()
@@ -30,89 +41,24 @@ namespace GTAPilots
         }
 
 
-        private void PlayerConnected(Client player)
-        {
-            API.setEntityData(player.handle, "Score", 0);
-            API.setEntitySyncedData(player.handle, "Local_Score", 0);
-        }
-        
-        public void ClientEventTrigger(Client player, string Event, params object[] arguments)
-        {
+        //private void PlayerConnected(Client player)
+        //{
+        //    API.setEntityData(player.handle, "Score", 0);
+        //    API.setEntitySyncedData(player.handle, "Local_Score", 0);
+        //}
 
-            if (Event == "Update")
+        private void OnPlayerFinishedDownload(Client player)
+        {
+            bool anyScore = API.hasEntityData(player, "Score");
+            bool anyLocalScore = API.hasEntitySyncedData(player, "Local_Score");
+            if (anyScore == false)
             {
-                var inVehicle = API.isPlayerInAnyVehicle(player);
-                //var dataAircraft = API.getEntitySyncedData(player, "Aircraft");
-                var playerVehicle = API.getPlayerVehicle(player);
-                var entityModel = API.getEntityModel(playerVehicle);
-                var inAircraft = API.getVehicleClass((VehicleHash)entityModel);
-                var playerSeat = API.getPlayerVehicleSeat(player);
-                CancellationTokenSource source = new CancellationTokenSource();
-
-
-                if (inVehicle == true)
-                {
-                    //API.sendChatMessageToPlayer(player, "Your in a vehicle!");
-
-                    if (inAircraft == 15 || inAircraft == 16)
-                    {
-                        //API.sendChatMessageToPlayer(player, "Your in an Aircraft!");
-
-                        if (playerSeat == -1)
-                        {
-                            var token = source.Token;
-                            //API.sendChatMessageToPlayer(player, "Your in the drivers seat!");
-                            var t = Task.Run(async delegate
-                            {
-                                await Task.Delay(TimeSpan.FromMinutes(1), token);
-
-                                Score = Score + 1;
-
-                                return;
-                            });
-                        }
-
-                        else if (playerSeat == 0)
-                        {
-                            var token = source.Token;
-                            var t = Task.Run(async delegate
-                            {
-                                await Task.Delay(TimeSpan.FromMinutes(2), token);
-
-                                Score = Score + 1;
-
-                                return;
-                            });
-                        }
-
-                        else
-                        {
-                            source.Cancel(false);
-                        }
-
-                    }
-
-                    else
-                    {
-                        source.Cancel(false);
-                    }
-                }
-
-                else
-                {
-                    source.Cancel(false);
-                }
+                API.setEntityData(player.handle, "Score", 0);
             }
 
-            else if (Event == "WriteScore")
+            if (anyLocalScore == false)
             {
-                var PScore = API.getEntityData(player, "Score");
-                SetPlayerLevel(player, PScore);
-            }
-
-            else
-            {
-
+                API.setEntitySyncedData(player.handle, "Local_Score", 0);
             }
         }
 
@@ -136,6 +82,131 @@ namespace GTAPilots
             return 0;
         }
 
+        private void OnPlayerEnterVehicle(Client player, NetHandle vehicle, int seat)
+        {
+            Vehicle Aircraft = API.getEntityFromHandle<Vehicle>(vehicle);
+            if (Aircraft.Class == 15 || Aircraft.Class == 16)
+            {
+                int PlayerSeat = API.getPlayerVehicleSeat(player);
+                
+                if (PlayerSeat == -1)
+                {
+                    Captain = API.startTimer(60000, false, () =>
+                    {
+                        API.setEntityData(player, "TimerRunning", "Captain");
+                        int Score = GetPlayerLevel(player) + 1;
+                        SetPlayerLevel(player, Score);
+                    });
+                }
+                else if (PlayerSeat == 0)
+                {
+                    FirstOfficer = API.startTimer(120000, false, () =>
+                    {
+                        API.setEntityData(player, "TimerRunning", "FirstOfficer");
+                        int Score = GetPlayerLevel(player) + 1;
+                        SetPlayerLevel(player, Score);
+                    });
+                }
+            }
+        }
+
+        private void OnPlayerExitVehicle(Client player, NetHandle vehicle, int seat)
+        {
+            bool hasData = API.hasEntityData(player, "TimerRunning");
+            if (hasData == true)
+            {
+                string TimerRunning = API.getEntityData(player, "ScoreTimerCaptain");
+                if (TimerRunning == "Captain")
+                {
+                    API.setEntityData(player, "TimerRunning", "None");
+                    API.stopTimer(Captain);
+                }
+                else if(TimerRunning == "FirstOfficer")
+                {
+                    API.setEntityData(player, "TimerRunning", "None");
+                    API.stopTimer(FirstOfficer);
+                }
+            }
+        }
+
+        private void OnPlayerChangeVehicleSeat(Client player, NetHandle vehicle, int oldSeat, int newSeat)
+        {
+            Vehicle Aircraft = API.getEntityFromHandle<Vehicle>(vehicle);
+            if (Aircraft.Class == 15 || Aircraft.Class == 16)
+            {
+                if (newSeat == -1)
+                {
+                    bool hasData = API.hasEntityData(player, "TimerRunning");
+                    if (hasData == true)
+                    {
+                        string TimerRunning = API.getEntityData(player, "TimerRunning");
+                        if (TimerRunning == "FirstOfficer")
+                        {
+                            API.stopTimer(FirstOfficer);
+                            Captain = API.startTimer(60000, false, () =>
+                            {
+                                API.setEntityData(player, "TimerRunning", "Captain");
+                                int Score = GetPlayerLevel(player) + 1;
+                                SetPlayerLevel(player, Score);
+                            });
+                        }
+                        else if (TimerRunning == "None")
+                        {
+                            Captain = API.startTimer(60000, false, () =>
+                            {
+                                API.setEntityData(player, "TimerRunning", "Captain");
+                                int Score = GetPlayerLevel(player) + 1;
+                                SetPlayerLevel(player, Score);
+                            });
+                        }
+                    }
+                }
+                else if (newSeat == 0)
+                {
+                    bool hasData = API.hasEntityData(player, "TimerRunning");
+                    if (hasData == true)
+                    {
+                        string TimerRunning = API.getEntityData(player, "TimerRunning");
+                        if (TimerRunning == "Captain")
+                        {
+                            API.stopTimer(Captain);
+                            FirstOfficer = API.startTimer(1200000, false, () =>
+                            {
+                                API.setEntityData(player, "TimerRunning", "FirstOfficer");
+                                int Score = GetPlayerLevel(player) + 1;
+                                SetPlayerLevel(player, Score);
+                            });
+                        }
+                        else if (TimerRunning == "None")
+                        {
+                            FirstOfficer = API.startTimer(1200000, false, () =>
+                            {
+                                API.setEntityData(player, "TimerRunning", "FirstOfficer");
+                                int Score = GetPlayerLevel(player) + 1;
+                                SetPlayerLevel(player, Score);
+                            });
+                        }
+                    }
+                }
+                else if (newSeat > 0)
+                {
+                    bool hasData = API.hasEntityData(player, "TimerRunning");
+                    if (hasData == true)
+                    {
+                        string TimerRunning = API.getEntityData(player, "TimerRunning");
+                        if (TimerRunning == "Captain")
+                        {
+                            API.stopTimer(Captain);
+                        }
+                        else if (TimerRunning == "FirstOfficer")
+                        {
+                            API.stopTimer(FirstOfficer);
+                        }
+                    }
+                }
+            }
+        }
+
         private void OnEntityDataChange(NetHandle entity, string key, object oldValue)
         {
             // If the modified key is the player's level
@@ -152,6 +223,23 @@ namespace GTAPilots
                 {
                     // The synced level is different, so let's set it back to the correct value
                     API.setEntitySyncedData(entity, "Local_Score", playerScore);
+                }
+            }
+        }
+
+        private void OnPlayerDisconnected(Client player, string reason)
+        {
+            bool hasData = API.hasEntityData(player, "TimerRunning");
+            if (hasData == true)
+            {
+                string TimerRunning = API.getEntityData(player, "TimerRunning");
+                if (TimerRunning == "Captain")
+                {
+                    API.stopTimer(Captain);
+                }
+                else if (TimerRunning == "FirstOfficer")
+                {
+                    API.stopTimer(FirstOfficer);
                 }
             }
         }

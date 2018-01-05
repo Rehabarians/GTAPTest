@@ -2,8 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using GTANetworkServer;
-using GTANetworkShared;
+using GrandTheftMultiplayer.Server;
+using GrandTheftMultiplayer.Server.API;
+using GrandTheftMultiplayer.Server.Managers;
+using GrandTheftMultiplayer.Server.Elements;
+using GrandTheftMultiplayer.Server.Constant;
+using GrandTheftMultiplayer.Shared;
+using GrandTheftMultiplayer.Shared.Math;
 using System.Threading.Tasks;
 
 namespace GTAPilots
@@ -64,16 +69,14 @@ namespace GTAPilots
         {
             API.onResourceStart += OnResourceStart;
             API.onPlayerFinishedDownload += OnPlayerDownload;
+            API.onClientEventTrigger += OnClientEventTrigger;
+            API.onPlayerDeath += OnPlayerDeath;
         }
 
         public void OnResourceStart()
         {
             ColShape elevatorBottom = API.createSphereColShape(new Vector3(-2361.174, 3249.038, 32.81074), 3f);
             ColShape elevatorTop = API.createSphereColShape(new Vector3(-2361.015, 3248.824, 92.90366), 3f);
-            ColShape LsiaArea = API.createSphereColShape(new Vector3(-1336.026, -3044.2, 12.55686), 2000f);
-            ColShape EvwaArea = API.createSphereColShape(new Vector3(1148.543, 124.9639, 81.10194), 2000f);
-            ColShape SandyArea = API.createSphereColShape(new Vector3(1330.159, 3112.599, 40.00936), 2000f);
-            ColShape MilitaryArea = API.createSphereColShape(new Vector3(-2239.216, 3190.27, 31.90979), 2000f);
             //API.onEntityEnterColShape += OnEntityEnterColShape;
             //API.onEntityExitColShape += OnEntityExitColShape;
 
@@ -82,198 +85,98 @@ namespace GTAPilots
 
             elevatorBottom.onEntityExitColShape += ElevatorBottomExited;
             elevatorTop.onEntityExitColShape += ElevatorTopExited;
-
-            LsiaArea.onEntityEnterColShape += LsiaOnEnter;
-            EvwaArea.onEntityEnterColShape += EvwaOnEnter;
-            MilitaryArea.onEntityEnterColShape += MilitaryOnEnter;
-            SandyArea.onEntityEnterColShape += SandyOnEnter;
-
-            LsiaArea.onEntityExitColShape += LsiaOnExit;
-            EvwaArea.onEntityExitColShape += EvwaOnExit;
-            MilitaryArea.onEntityExitColShape += MilitaryOnExit;
-            SandyArea.onEntityExitColShape += SandyOnExit;
-            //elevatorTop.setData("Type", "ElevatorTop");
-            //elevatorBottom.setData("Type", "ElevatorBottom");
         }
 
         public void OnPlayerDownload(Client Player)
         {
-            API.setEntitySyncedData(Player, "Taking Off", false);
-            API.setEntitySyncedData(Player, "Landing", false);
-        }
-        bool LsiaInside = false;
-        bool EvwaInside = false;
-        bool MilitaryInside = false;
-        bool SandyInside = false;
-
-        public void LsiaOnEnter(ColShape shape, NetHandle entity)
-        {
-            LsiaInside = true;
-            Client Player = API.getPlayerFromHandle(entity);
-
-            if (Player == null)
-            {
-                return;
-            }
-
-            API.setEntitySyncedData(Player, "InsideAirportArea", "Lsia");
+            API.setEntityData(Player, "Seatbelt", false);
         }
 
-        public void EvwaOnEnter(ColShape shape, NetHandle entity)
+        public void OnClientEventTrigger(Client sender, string eventName, params object[] arguments)
         {
-            EvwaInside = true;
-            Client Player = API.getPlayerFromHandle(entity);
-
-            if (Player == null)
+            if (eventName == "SaluteStart")
             {
-                return;
-            }
+                API.playPlayerAnimation(sender, (int)(AnimationFlags.AllowPlayerControl | AnimationFlags.OnlyAnimateUpperBody), "anim@mp_player_intuppersalute", "enter");
+                API.playPlayerAnimation(sender, (int)(AnimationFlags.AllowPlayerControl | AnimationFlags.OnlyAnimateUpperBody | AnimationFlags.Loop), "anim@mp_player_intuppersalute", "idle_a");
 
-            API.setEntitySyncedData(Player, "InsideAirportArea", "Evwa");
+                //API.delay(380, true, () =>
+                //{
+                //    API.playPlayerAnimation(sender, (int)(AnimationFlags.AllowPlayerControl | AnimationFlags.OnlyAnimateUpperBody | AnimationFlags.Loop), "anim@mp_player_intuppersalute", "idle_a");
+                //});
+            }
+            else if (eventName == "SaluteStop")
+            {
+                API.stopPlayerAnimation(sender);
+            }
+            else if (eventName == "LeftIndicator")
+            {
+                NetHandle Veh = API.getPlayerVehicle(sender);
+                API.sendNativeToPlayer(sender, Hash.SET_VEHICLE_INDICATOR_LIGHTS, Veh, 1, true);
+            }
+            else if (eventName == "RightIndicator")
+            {
+                NetHandle Veh = API.getPlayerVehicle(sender);
+                API.sendNativeToPlayer(sender, Hash.SET_VEHICLE_INDICATOR_LIGHTS, Veh, 0, true);
+            }
         }
 
-        public void SandyOnEnter(ColShape shape, NetHandle entity)
+        private void OnPlayerDeath(Client player, NetHandle entityKiller, int weapon)
         {
-            SandyInside = true;
-            Client Player = API.getPlayerFromHandle(entity);
+            bool anyData = API.hasEntityData(player, "DoorLocked");
 
-            if (Player == null)
+            if (anyData == true)
             {
-                return;
+                bool Locked = API.getEntityData(player, "DoorLocked");
+
+                if (Locked == true)
+                {
+                    API.triggerClientEvent(player, "Unlock");
+                    API.setEntityData(player, "DoorLocked", false);
+                }
             }
-
-            API.setEntitySyncedData(Player, "InsideAirportArea", "Sandy");
-        }
-
-        public void MilitaryOnEnter(ColShape shape, NetHandle entity)
-        {
-            MilitaryInside = true;
-            Client Player = API.getPlayerFromHandle(entity);
-
-            if (Player == null)
-            {
-                return;
-            }
-
-            API.setEntitySyncedData(Player, "InsideAirportArea", "Military");
-        }
-
-        public void LsiaOnExit(ColShape shape, NetHandle entity)
-        {
-            LsiaInside = false;
-            Client Player = API.getPlayerFromHandle(entity);
-
-            if (Player == null)
-            {
-                return;
-            }
-
-            API.setEntitySyncedData(Player, "TakeoffTimer", false);
-            API.setEntitySyncedData(Player, "LandingTimer", false);
-            API.setEntitySyncedData(Player, "CommandCallerLND", false);
-            API.setEntitySyncedData(Player, "CommandCallerTO", false);
-            API.setEntitySyncedData(Player, "Landing", false);
-            API.setEntitySyncedData(Player, "Taking Off", false);
-        }
-
-        public void EvwaOnExit(ColShape shape, NetHandle entity)
-        {
-            EvwaInside = false;
-            Client Player = API.getPlayerFromHandle(entity);
-
-            if (Player == null)
-            {
-                return;
-            }
-
-            API.setEntitySyncedData(Player, "TakeoffTimer", false);
-            API.setEntitySyncedData(Player, "LandingTimer", false);
-            API.setEntitySyncedData(Player, "CommandCallerLND", false);
-            API.setEntitySyncedData(Player, "CommandCallerTO", false);
-            API.setEntitySyncedData(Player, "Landing", false);
-            API.setEntitySyncedData(Player, "Taking Off", false);
-        }
-
-        public void SandyOnExit(ColShape shape, NetHandle entity)
-        {
-            SandyInside = false;
-            Client Player = API.getPlayerFromHandle(entity);
-
-            if (Player == null)
-            {
-                return;
-            }
-            API.setEntitySyncedData(Player, "TakeoffTimer", false);
-            API.setEntitySyncedData(Player, "LandingTimer", false);
-            API.setEntitySyncedData(Player, "CommandCallerLND", false);
-            API.setEntitySyncedData(Player, "CommandCallerTO", false);
-            API.setEntitySyncedData(Player, "Landing", false);
-            API.setEntitySyncedData(Player, "Taking Off", false);
-        }
-
-        public void MilitaryOnExit(ColShape shape, NetHandle entity)
-        {
-            MilitaryInside = false;
-            Client Player = API.getPlayerFromHandle(entity);
-
-            if (Player == null)
-            {
-                return;
-            }
-
-            API.setEntitySyncedData(Player, "TakeoffTimer", false);
-            API.setEntitySyncedData(Player, "LandingTimer", false);
-            API.setEntitySyncedData(Player, "CommandCallerLND", false);
-            API.setEntitySyncedData(Player, "CommandCallerTO", false);
-            API.setEntitySyncedData(Player, "Landing", false);
-            API.setEntitySyncedData(Player, "Taking Off", false);
         }
 
         public void ElevatorBottomEntered(ColShape shape, NetHandle entity)
         {
-            Client player = API.getPlayerFromHandle(entity);
+            Client player = API.getEntityFromHandle<Client>(entity);
 
             if (player == null)
             {
                 return;
             }
-
             API.triggerClientEvent(player, "insideElevatorBottom");
         }
 
         public void ElevatorTopEntered(ColShape shape, NetHandle entity)
         {
-            Client player = API.getPlayerFromHandle(entity);
+            Client player = API.getEntityFromHandle<Client>(entity);
 
             if (player == null)
             {
                 return;
             }
-
             API.triggerClientEvent(player, "insideElevatorTop");
         }
 
         public void ElevatorBottomExited(ColShape shape, NetHandle entity)
         {
-            Client player = API.getPlayerFromHandle(entity);
+            Client player = API.getEntityFromHandle<Client>(entity);
 
             if (player == null)
             {
                 return;
             }
-
             API.triggerClientEvent(player, "exit");
         }
 
         public void ElevatorTopExited(ColShape shape, NetHandle entity)
         {
-            Client player = API.getPlayerFromHandle(entity);
+            Client player = API.getEntityFromHandle<Client>(entity);
 
             if (player == null)
             {
                 return;
             }
-
             API.triggerClientEvent(player, "exit");
         }
 
@@ -292,388 +195,6 @@ namespace GTAPilots
                 }
             }
             return handleReturned;
-        }
-
-        public List<Client> TakeoffLsia = new List<Client>();
-        public List<Client> TakeoffEvwa = new List<Client>();
-        public List<Client> TakeoffSandy = new List<Client>();
-        public List<Client> TakeoffMilitary = new List<Client>();
-
-        [Command("land", Alias = "lnd", GreedyArg = true)]
-        public void LandingCommand(Client Player)
-        {
-            //API.setEntitySyncedData(Player, "Taking Off", true);
-            //API.setEntitySyncedData(Player, "CommandCaller", true);
-
-            if (LsiaInside == true)
-            {
-                API.setEntitySyncedData(Player, "Landing", true);
-                API.setEntitySyncedData(Player, "CommandCallerLND", true);
-                API.setEntitySyncedData(Player, "LandingTimer", true);
-                API.triggerClientEvent(Player, "LsiaLND");
-
-                var t = Task.Run(async delegate
-                {
-                    await Task.Delay(TimeSpan.FromSeconds(5));
-                    API.setEntitySyncedData(Player, "Landing", false);                  
-                    return;
-                });
-
-                List<Client> Takeoffcall = API.getPlayersInRadiusOfPosition(2000, new Vector3(-1336.026, -3044.2, 12.55686));
-
-                foreach (var Pilot in Takeoffcall)
-                {
-                    if (Pilot == Player)
-                    {
-                        return;
-                    }
-
-                    API.setEntitySyncedData(Pilot, "Landing", true);
-                    API.setEntitySyncedData(Pilot, "CommandCallerLND", false);
-                    API.triggerClientEvent(Pilot, "LsiaLND");
-
-                    var t1 = Task.Run(async delegate
-                    {
-                        await Task.Delay(TimeSpan.FromSeconds(5));
-                        API.setEntitySyncedData(Pilot, "Landing", false);
-                        return;
-                    });
-                }
-
-                var t2 = Task.Run(async delegate
-                {
-                    await Task.Delay(TimeSpan.FromMinutes(1));
-                    API.setEntitySyncedData(Player, "LandingTimer", false);
-                    return;
-                });
-            }
-            else if (EvwaInside == true)
-            {
-                API.setEntitySyncedData(Player, "Landing", true);
-                API.setEntitySyncedData(Player, "CommandCallerLND", true);
-                API.setEntitySyncedData(Player, "LandingTimer", true);
-                API.triggerClientEvent(Player, "EvwaLND");
-
-                var t = Task.Run(async delegate
-                {
-                    await Task.Delay(TimeSpan.FromSeconds(5));
-                    API.setEntitySyncedData(Player, "Landing", false);
-                    return;
-                });
-
-                List<Client> Takeoffcall = API.getPlayersInRadiusOfPosition(2000, new Vector3(-1336.026, -3044.2, 12.55686));
-
-                foreach (var Pilot in Takeoffcall)
-                {
-                    if (Pilot == Player)
-                    {
-                        return;
-                    }
-
-                    API.setEntitySyncedData(Pilot, "Landing", true);
-                    API.setEntitySyncedData(Pilot, "CommandCallerLND", false);
-                    API.triggerClientEvent(Pilot, "EvwaLND");
-
-                    var t1 = Task.Run(async delegate
-                    {
-                        await Task.Delay(TimeSpan.FromSeconds(5));
-                        API.setEntitySyncedData(Pilot, "Landing", false);
-                        return;
-                    });
-                }
-
-                var t2 = Task.Run(async delegate
-                {
-                    await Task.Delay(TimeSpan.FromMinutes(1));
-                    API.setEntitySyncedData(Player, "LandingTimer", false);
-                    return;
-                });
-            }
-            else if (SandyInside == true)
-            {
-                API.setEntitySyncedData(Player, "Landing", true);
-                API.setEntitySyncedData(Player, "CommandCallerLND", true);
-                API.setEntitySyncedData(Player, "LandingTimer", true);
-                API.triggerClientEvent(Player, "SandyLND");
-
-                var t = Task.Run(async delegate
-                {
-                    await Task.Delay(TimeSpan.FromSeconds(5));
-                    API.setEntitySyncedData(Player, "Landing", false);
-                    return;
-                });
-
-                List<Client> Takeoffcall = API.getPlayersInRadiusOfPosition(2000, new Vector3(-1336.026, -3044.2, 12.55686));
-
-                foreach (var Pilot in Takeoffcall)
-                {
-                    if (Pilot == Player)
-                    {
-                        return;
-                    }
-
-                    API.setEntitySyncedData(Pilot, "Landing", true);
-                    API.setEntitySyncedData(Pilot, "CommandCallerLND", false);
-                    API.triggerClientEvent(Pilot, "SandyLND");
-
-                    var t1 = Task.Run(async delegate
-                    {
-                        await Task.Delay(TimeSpan.FromSeconds(5));
-                        API.setEntitySyncedData(Pilot, "Landing", false);
-                        return;
-                    });
-                }
-
-                var t2 = Task.Run(async delegate
-                {
-                    await Task.Delay(TimeSpan.FromMinutes(1));
-                    API.setEntitySyncedData(Player, "LandingTimer", false);
-                    return;
-                });
-            }
-            else if (MilitaryInside == true)
-            {
-                API.setEntitySyncedData(Player, "Landing", true);
-                API.setEntitySyncedData(Player, "CommandCallerLND", true);
-                API.setEntitySyncedData(Player, "LandingTimer", true);
-                API.triggerClientEvent(Player, "MilitaryLND");
-
-                var t = Task.Run(async delegate
-                {
-                    await Task.Delay(TimeSpan.FromSeconds(5));
-                    API.setEntitySyncedData(Player, "Landing", false);
-                    return;
-                });
-
-                List<Client> Takeoffcall = API.getPlayersInRadiusOfPosition(2000, new Vector3(-1336.026, -3044.2, 12.55686));
-
-                foreach (var Pilot in Takeoffcall)
-                {
-                    if (Pilot == Player)
-                    {
-                        return;
-                    }
-
-                    API.setEntitySyncedData(Pilot, "Landing", true);
-                    API.setEntitySyncedData(Pilot, "CommandCallerLND", false);
-                    API.triggerClientEvent(Pilot, "MilitaryLND");
-
-                    var t1 = Task.Run(async delegate
-                    {
-                        await Task.Delay(TimeSpan.FromSeconds(5));
-                        API.setEntitySyncedData(Pilot, "Landing", false);
-                        return;
-                    });
-                }
-
-                var t2 = Task.Run(async delegate
-                {
-                    await Task.Delay(TimeSpan.FromMinutes(1));
-                    API.setEntitySyncedData(Player, "LandingTimer", false);
-                    return;
-                });
-            }
-        }
-
-        [Command("takeoff", Alias = "to", GreedyArg = true)]
-        public void TakeoffCommand(Client Player)
-        {
-            int isLsiaPopulated = TakeoffLsia.Count();
-            bool inVeh = API.isPlayerInAnyVehicle(Player);
-            if (inVeh == true)
-            {
-                if (LsiaInside == true)
-                {
-                    if (isLsiaPopulated == 0)
-                    {
-                        TakeoffLsia.Add(Player);
-
-                        API.setEntitySyncedData(Player, "Taking Off", true);
-                        API.setEntitySyncedData(Player, "CommandCaller", true);
-                        API.setEntitySyncedData(Player, "TakeoffTimer", true);
-
-                        API.triggerClientEvent(Player, "LsiaTO");
-
-                        var t = Task.Run(async delegate
-                        {
-                            await Task.Delay(TimeSpan.FromSeconds(5));
-                            API.setEntitySyncedData(Player, "TakeoffTimer", false);
-
-                            return;
-                        });
-                    }
-                    else if (isLsiaPopulated >= 1)
-                    {
-                        API.setEntitySyncedData(Player, "CommandCaller", false);
-
-                        List<Client> Takeoffcall = API.getPlayersInRadiusOfPosition(2000, new Vector3(-1336.026, -3044.2, 12.55686));
-                        
-                        foreach (var Pilot in Takeoffcall)
-                        {
-                            if (Player == Pilot)
-                            {
-                                API.setEntitySyncedData(Pilot, "Taking Off", true);
-                                API.setEntitySyncedData(Pilot, "CommandCaller", true);
-                                return;
-                            }
-                            else
-                            {
-                                API.setEntitySyncedData(Pilot, "Taking Off", false);
-                                API.setEntitySyncedData(Pilot, "CommandCaller", false);
-                                API.setEntitySyncedData(Pilot, "TakeoffTimer", true);
-
-                                API.triggerClientEvent(Pilot, "LsiaTO");
-
-                                var t1 = Task.Run(async delegate
-                                {
-                                    await Task.Delay(TimeSpan.FromSeconds(5));
-                                    API.setEntitySyncedData(Pilot, "TakeoffTimer", false);
-                                    return;
-                                });
-                            }
-                        }
-                    }
-
-                    var t2 = Task.Run(async delegate
-                    {
-                        await Task.Delay(TimeSpan.FromMinutes(1));
-                        API.setEntitySyncedData(Player, "Taking Off", false);
-                        API.setEntitySyncedData(Player, "CommandCaller", false);
-                        TakeoffLsia.Clear();
-                        return;
-                    });
-                }
-                else if (EvwaInside == true)
-                {
-                    API.setEntitySyncedData(Player, "Taking Off", true);
-                    API.setEntitySyncedData(Player, "CommandCaller", true);
-                    API.setEntitySyncedData(Player, "TakeoffTimer", true);
-                    API.triggerClientEvent(Player, "EvwaTO");
-
-                    var t = Task.Run(async delegate
-                    {
-                        await Task.Delay(TimeSpan.FromSeconds(5));
-                        API.setEntitySyncedData(Player, "Taking Off", false);
-                        return;
-                    });
-
-                    List<Client> Takeoffcall = API.getPlayersInRadiusOfPosition(2000, new Vector3(-1336.026, -3044.2, 12.55686));
-
-                    foreach (var Pilot in Takeoffcall)
-                    {
-                        if (Pilot == Player)
-                        {
-                            return;
-                        }
-
-                        API.setEntitySyncedData(Pilot, "Taking Off", true);
-                        API.setEntitySyncedData(Pilot, "CommandCaller", false);
-                        API.triggerClientEvent(Pilot, "EvwaTO");
-
-                        var t1 = Task.Run(async delegate
-                        {
-                            await Task.Delay(TimeSpan.FromSeconds(5));
-                            API.setEntitySyncedData(Pilot, "Taking Off", false);
-                            return;
-                        });
-                    }
-
-                    var t2 = Task.Run(async delegate
-                    {
-                        await Task.Delay(TimeSpan.FromMinutes(1));
-                        API.setEntitySyncedData(Player, "TakeoffTimer", false);
-                        return;
-                    });
-                }
-                else if (SandyInside == true)
-                {
-                    API.setEntitySyncedData(Player, "Taking Off", true);
-                    API.setEntitySyncedData(Player, "CommandCaller", true);
-                    API.setEntitySyncedData(Player, "TakeoffTimer", true);
-                    API.triggerClientEvent(Player, "SandyTO");
-
-                    var t = Task.Run(async delegate
-                    {
-                        await Task.Delay(TimeSpan.FromSeconds(5));
-                        API.setEntitySyncedData(Player, "Taking Off", false);
-                        return;
-                    });
-
-                    List<Client> Takeoffcall = API.getPlayersInRadiusOfPosition(2000, new Vector3(-1336.026, -3044.2, 12.55686));
-
-                    foreach (var Pilot in Takeoffcall)
-                    {
-                        if (Pilot == Player)
-                        {
-                            return;
-                        }
-
-                        API.setEntitySyncedData(Pilot, "Taking Off", true);
-                        API.setEntitySyncedData(Pilot, "CommandCaller", false);
-                        API.triggerClientEvent(Pilot, "SandyTO");
-
-                        var t1 = Task.Run(async delegate
-                        {
-                            await Task.Delay(TimeSpan.FromSeconds(5));
-                            API.setEntitySyncedData(Pilot, "Taking Off", false);
-                            return;
-                        });
-                    }
-
-                    var t2 = Task.Run(async delegate
-                    {
-                        await Task.Delay(TimeSpan.FromMinutes(1));
-                        API.setEntitySyncedData(Player, "TakeoffTimer", false);
-                        return;
-                    });
-                }
-                else if (MilitaryInside == true)
-                {
-                    API.setEntitySyncedData(Player, "Taking Off", true);
-                    API.setEntitySyncedData(Player, "CommandCaller", true);
-                    API.setEntitySyncedData(Player, "TakeoffTimer", true);
-                    API.triggerClientEvent(Player, "MilitaryTO");
-
-                    var t = Task.Run(async delegate
-                    {
-                        await Task.Delay(TimeSpan.FromSeconds(5));
-                        API.setEntitySyncedData(Player, "Taking Off", false);
-                        return;
-                    });
-
-                    List<Client> Takeoffcall = API.getPlayersInRadiusOfPosition(2000, new Vector3(-1336.026, -3044.2, 12.55686));
-
-                    foreach (var Pilot in Takeoffcall)
-                    {
-                        if (Pilot == Player)
-                        {
-                            return;
-                        }
-
-                        API.setEntitySyncedData(Pilot, "Taking Off", true);
-                        API.setEntitySyncedData(Pilot, "CommandCaller", false);
-                        API.triggerClientEvent(Pilot, "MilitaryTO");
-
-                        var t1 = Task.Run(async delegate
-                        {
-                            await Task.Delay(TimeSpan.FromSeconds(5));
-                            API.setEntitySyncedData(Pilot, "Taking Off", false);
-                            return;
-                        });
-                    }
-
-                    var t2 = Task.Run(async delegate
-                    {
-                        await Task.Delay(TimeSpan.FromMinutes(1));
-                        API.setEntitySyncedData(Player, "TakeoffTimer", false);
-                        return;
-                    });
-                }
-            }
-            else
-            {
-                API.sendChatMessageToPlayer(Player, "Please enter a vaild");
-            }
         }
 
         [Command("eo", Alias = "Open", GreedyArg = true)]
@@ -889,331 +410,421 @@ namespace GTAPilots
             API.stopPlayerAnimation(player);
         }
 
-        [Command("ADF", "~y~Usage: ~w~/ADF [LSIA, LSL, MB, MNT]", Alias = "adf", GreedyArg = true)]
-        public void ADFBeacon(Client player, string text)
-        {
-            var beaconADF = text.ToUpper();
-
-            if (beaconADF == "LSIA")
-            {
-                API.triggerClientEvent(player, "ADF LSIA");
-            }
-
-            else if (beaconADF == "LSL")
-            {
-                API.triggerClientEvent(player, "ADF LSL");
-            }
-
-            else if (beaconADF == "MB")
-            {
-                API.triggerClientEvent(player, "ADF MB");
-            }
-
-            else if (beaconADF == "MNT")
-            {
-                API.triggerClientEvent(player, "ADF MNT");
-            }
-
-            else if (beaconADF == "OFF")
-            {
-                API.triggerClientEvent(player, "ADF OFF");
-            }
-
-            else if (beaconADF == "HELP")
-            {
-                API.sendChatMessageToPlayer(player, "/ADF [LSIA, LSL, MB, MNT, OFF, HELP]");
-            }
-
-            else
-            {
-                API.sendChatMessageToPlayer(player, "Please enter valid ADF Beacon Callsign!");
-            }
-        }
-
-        [Command("DME", "~y~Usage: ~w~/DME [LSIA, LSL, MB, MNT]", Alias = "dme", GreedyArg = true)]
-        public void DMEBeacon(Client player, string text)
-        {
-            var beaconDME = text.ToUpper();
-
-            if (beaconDME == "LSIA")
-            {
-                API.triggerClientEvent(player, "DME LSIA");
-            }
-
-            else if (beaconDME == "LSL")
-            {
-                API.triggerClientEvent(player, "DME LSL");
-            }
-
-            else if (beaconDME == "MB")
-            {
-                API.triggerClientEvent(player, "DME MB");
-            }
-
-            else if (beaconDME == "MNT")
-            {
-                API.triggerClientEvent(player, "DME MNT");
-            }
-
-            else if (beaconDME == "OFF")
-            {
-                API.triggerClientEvent(player, "DME OFF");
-            }
-
-            else if (beaconDME == "HELP")
-            {
-                API.sendChatMessageToPlayer(player, "/DME [LSIA, LSL, MB, MNT, OFF, HELP]");
-            }
-
-            else
-            {
-                API.sendChatMessageToPlayer(player, "Please enter valid DME Beacon Callsign!");
-            }
-        }
-
         [Command("help", Alias = "commands")]
         public void HelpCommand(Client player)
         {
-            API.sendChatMessageToPlayer(player, "List of Commands:");
-            API.sendChatMessageToPlayer(player, "/rules");
-            API.sendChatMessageToPlayer(player, "/spawn");
-            API.sendChatMessageToPlayer(player, "/me [message]");
+            API.sendChatMessageToPlayer(player, "~y~List of Commands:");
+            API.sendChatMessageToPlayer(player, "~r~/rules");
+            API.sendChatMessageToPlayer(player, "~g~/spawn");
+            API.sendChatMessageToPlayer(player, "~g~/me ~w~[message]");
             //API.sendChatMessageToPlayer(player, "/ADF [Beacon ID]");
-            API.sendChatMessageToPlayer(player, "/DME [Beacon ID]");
-            API.sendChatMessageToPlayer(player, "/engine");
-            API.sendChatMessageToPlayer(player, "/seat [Seat Number]");
-            API.sendChatMessageToPlayer(player, "/metar");
-            API.sendChatMessageToPlayer(player, "/para");
-
+            API.sendChatMessageToPlayer(player, "~g~/DME ~w~[Beacon ID]");
+            API.sendChatMessageToPlayer(player, "~g~/seat ~w~[Seat Number]");
+            API.sendChatMessageToPlayer(player, "~g~/engine");
+            API.sendChatMessageToPlayer(player, "~g~/para");
+            API.sendChatMessageToPlayer(player, "~b~/metar");
+            API.sendChatMessageToPlayer(player, "~c~/radio");
         }
 
         [Command("seat", "Usage: /seat [Seat Numer]", GreedyArg = true)]
         public void SeatInVehicle(Client sender, string seatnumber)
         {
-            var near = GetClosestVehicle(sender, 10f);
+            bool inVeh = API.isPlayerInAnyVehicle(sender);
 
-            var Occupants = API.getVehicleOccupants(near);
-
-            if (Occupants == null || Occupants.Length == 0)
+            if (inVeh == true)
             {
-                API.setPlayerIntoVehicle(sender, near, -1);
-            }
+                bool anyData = API.hasEntityData(sender, "Seatbelt");
 
-            else
-            {
-                foreach (var player in Occupants)
+                if (anyData == true)
                 {
-                    var seat = API.getPlayerVehicleSeat(player);
+                    bool Seatbelt = API.getEntityData(sender, "Seatbelt");
 
-                    if (seatnumber == "1")
+                    NetHandle Vehicle = API.getPlayerVehicle(sender);
+                    Client[] Occupants = API.getVehicleOccupants(Vehicle);
+
+                    if (Seatbelt == true)
                     {
-
-                        if (seat != -1)
-                        {
-                            API.setPlayerIntoVehicle(sender, near, -1);
-                        }
-
-                        else
-                        {
-                            API.sendChatMessageToPlayer(sender, "Seat Occupied! Please choose another");
-                        }
+                        API.sendChatMessageToPlayer(sender, "You can not move while you are seatbelted.");
                     }
-
-                    else if (seatnumber == "2")
+                    else if (Seatbelt == false)
                     {
-                        if (seat != 0)
+                        foreach (var player in Occupants)
                         {
-                            API.setPlayerIntoVehicle(sender, near, 0);
-                        }
-                        else
-                        {
-                            API.sendChatMessageToPlayer(sender, "Seat Occupied! Please choose another");
-                        }
-                    }
+                            var seat = API.getPlayerVehicleSeat(player);
 
-                    else if (seatnumber == "3")
-                    {
-                        if (seat != 1)
-                        {
-                            API.setPlayerIntoVehicle(sender, near, 1);
-                        }
-                        else
-                        {
-                            API.sendChatMessageToPlayer(sender, "Seat Occupied! Please choose another");
-                        }
-                    }
-
-                    else if (seatnumber == "4")
-                    {
-                        if (seat != 2)
-                        {
-                            API.setPlayerIntoVehicle(sender, near, 2);
-                        }
-                        else
-                        {
-                            API.sendChatMessageToPlayer(sender, "Seat Occupied! Please choose another");
-                        }
-                    }
-
-                    else if (seatnumber == "5")
-                    {
-                        if (seat != 3)
-                        {
-                            API.setPlayerIntoVehicle(sender, near, 3);
-                        }
-                        else
-                        {
-                            API.sendChatMessageToPlayer(sender, "Seat Occupied! Please choose another");
-                        }
-                    }
-
-                    else if (seatnumber == "6")
-                    {
-                        if (seat != 4)
-                        {
-                            API.setPlayerIntoVehicle(sender, near, 4);
-                        }
-                        else
-                        {
-                            API.sendChatMessageToPlayer(sender, "Seat Occupied! Please choose another");
-                        }
-                    }
-
-                    else if (seatnumber == "7")
-                    {
-                        if (seat != 5)
-                        {
-                            API.setPlayerIntoVehicle(sender, near, 5);
-                        }
-                        else
-                        {
-                            API.sendChatMessageToPlayer(sender, "Seat Occupied! Please choose another");
-                        }
-                    }
-
-                    else if (seatnumber == "8")
-                    {
-                        if (seat != 6)
-                        {
-                            API.setPlayerIntoVehicle(sender, near, 6);
-                        }
-                        else
-                        {
-                            API.sendChatMessageToPlayer(sender, "Seat Occupied! Please choose another");
-                        }
-                    }
-
-                    else if (seatnumber == "9")
-                    {
-                        if (seat != 7)
-                        {
-                            API.setPlayerIntoVehicle(sender, near, 7);
-                        }
-                        else
-                        {
-                            API.sendChatMessageToPlayer(sender, "Seat Occupied! Please choose another");
-                        }
-                    }
-
-                    else if (seatnumber == "10")
-                    {
-                        if (seat != 8)
-                        {
-                            API.setPlayerIntoVehicle(sender, near, 8);
-                        }
-                        else
-                        {
-                            API.sendChatMessageToPlayer(sender, "Seat Occupied! Please choose another");
-                        }
-                    }
-
-                    else if (seatnumber == "11")
-                    {
-                        if (seat != 9)
-                        {
-                            API.setPlayerIntoVehicle(sender, near, 9);
-                        }
-                        else
-                        {
-                            API.sendChatMessageToPlayer(sender, "Seat Occupied! Please choose another");
-                        }
-                    }
-
-                    else if (seatnumber == "12")
-                    {
-                        if (seat != 10)
-                        {
-                            API.setPlayerIntoVehicle(sender, near, 10);
-                        }
-                        else
-                        {
-                            API.sendChatMessageToPlayer(sender, "Seat Occupied! Please choose another");
-                        }
-                    }
-
-                    else if (seatnumber == "13")
-                    {
-                        if (seat != 11)
-                        {
-                            API.setPlayerIntoVehicle(sender, near, 11);
-                        }
-                        else
-                        {
-                            API.sendChatMessageToPlayer(sender, "Seat Occupied! Please choose another");
-                        }
-                    }
-
-                    else if (seatnumber == "14")
-                    {
-                        if (seat != 12)
-                        {
-                            API.setPlayerIntoVehicle(sender, near, 12);
-                        }
-                        else
-                        {
-                            API.sendChatMessageToPlayer(sender, "Seat Occupied! Please choose another");
-                        }
-                    }
-
-                    else if (seatnumber == "15")
-                    {
-                        if (seat != 13)
-                        {
-                            API.setPlayerIntoVehicle(sender, near, 13);
-                        }
-                        else
-                        {
-                            API.sendChatMessageToPlayer(sender, "Seat Occupied! Please choose another");
-                        }
-                    }
-
-                    else if (seatnumber == "16")
-                    {
-                        if (seat != 14)
-                        {
-                            API.setPlayerIntoVehicle(sender, near, 14);
-                        }
-                        else
-                        {
-                            API.sendChatMessageToPlayer(sender, "Seat Occupied! Please choose another");
-                        }
-                    }
-
-                    else if (seatnumber == "17")
-                    {
-                        if (seat != 15)
-                        {
-                            API.setPlayerIntoVehicle(sender, near, 15);
-                            API.sendChatMessageToPlayer(sender, "This is a test to see if a seat 15 exists");
-                        }
-                        else
-                        {
-                            API.sendChatMessageToPlayer(sender, "Seat Occupied! Please choose another");
-                            API.sendChatMessageToPlayer(sender, "Test failed?");
+                            if (seatnumber == "1")
+                            {
+                                if (seat != -1)
+                                {
+                                    API.setPlayerIntoVehicle(sender, Vehicle, -1);
+                                }
+                                else
+                                {
+                                    API.sendChatMessageToPlayer(sender, "Seat Occupied! Please choose another");
+                                }
+                            }
+                            else if (seatnumber == "2")
+                            {
+                                if (seat != 0)
+                                {
+                                    API.setPlayerIntoVehicle(sender, Vehicle, 0);
+                                }
+                                else
+                                {
+                                    API.sendChatMessageToPlayer(sender, "Seat Occupied! Please choose another");
+                                }
+                            }
+                            else if (seatnumber == "3")
+                            {
+                                if (seat != 1)
+                                {
+                                    API.setPlayerIntoVehicle(sender, Vehicle, 1);
+                                }
+                                else
+                                {
+                                    API.sendChatMessageToPlayer(sender, "Seat Occupied! Please choose another");
+                                }
+                            }
+                            else if (seatnumber == "4")
+                            {
+                                if (seat != 2)
+                                {
+                                    API.setPlayerIntoVehicle(sender, Vehicle, 2);
+                                }
+                                else
+                                {
+                                    API.sendChatMessageToPlayer(sender, "Seat Occupied! Please choose another");
+                                }
+                            }
+                            else if (seatnumber == "5")
+                            {
+                                if (seat != 3)
+                                {
+                                    API.setPlayerIntoVehicle(sender, Vehicle, 3);
+                                }
+                                else
+                                {
+                                    API.sendChatMessageToPlayer(sender, "Seat Occupied! Please choose another");
+                                }
+                            }
+                            else if (seatnumber == "6")
+                            {
+                                if (seat != 4)
+                                {
+                                    API.setPlayerIntoVehicle(sender, Vehicle, 4);
+                                }
+                                else
+                                {
+                                    API.sendChatMessageToPlayer(sender, "Seat Occupied! Please choose another");
+                                }
+                            }
+                            else if (seatnumber == "7")
+                            {
+                                if (seat != 5)
+                                {
+                                    API.setPlayerIntoVehicle(sender, Vehicle, 5);
+                                }
+                                else
+                                {
+                                    API.sendChatMessageToPlayer(sender, "Seat Occupied! Please choose another");
+                                }
+                            }
+                            else if (seatnumber == "8")
+                            {
+                                if (seat != 6)
+                                {
+                                    API.setPlayerIntoVehicle(sender, Vehicle, 6);
+                                }
+                                else
+                                {
+                                    API.sendChatMessageToPlayer(sender, "Seat Occupied! Please choose another");
+                                }
+                            }
+                            else if (seatnumber == "9")
+                            {
+                                if (seat != 7)
+                                {
+                                    API.setPlayerIntoVehicle(sender, Vehicle, 7);
+                                }
+                                else
+                                {
+                                    API.sendChatMessageToPlayer(sender, "Seat Occupied! Please choose another");
+                                }
+                            }
+                            else if (seatnumber == "10")
+                            {
+                                if (seat != 8)
+                                {
+                                    API.setPlayerIntoVehicle(sender, Vehicle, 8);
+                                }
+                                else
+                                {
+                                    API.sendChatMessageToPlayer(sender, "Seat Occupied! Please choose another");
+                                }
+                            }
+                            else if (seatnumber == "11")
+                            {
+                                if (seat != 9)
+                                {
+                                    API.setPlayerIntoVehicle(sender, Vehicle, 9);
+                                }
+                                else
+                                {
+                                    API.sendChatMessageToPlayer(sender, "Seat Occupied! Please choose another");
+                                }
+                            }
+                            else if (seatnumber == "12")
+                            {
+                                if (seat != 10)
+                                {
+                                    API.setPlayerIntoVehicle(sender, Vehicle, 10);
+                                }
+                                else
+                                {
+                                    API.sendChatMessageToPlayer(sender, "Seat Occupied! Please choose another");
+                                }
+                            }
+                            else if (seatnumber == "13")
+                            {
+                                if (seat != 11)
+                                {
+                                    API.setPlayerIntoVehicle(sender, Vehicle, 11);
+                                }
+                                else
+                                {
+                                    API.sendChatMessageToPlayer(sender, "Seat Occupied! Please choose another");
+                                }
+                            }
+                            else if (seatnumber == "14")
+                            {
+                                if (seat != 12)
+                                {
+                                    API.setPlayerIntoVehicle(sender, Vehicle, 12);
+                                }
+                                else
+                                {
+                                    API.sendChatMessageToPlayer(sender, "Seat Occupied! Please choose another");
+                                }
+                            }
+                            else if (seatnumber == "15")
+                            {
+                                if (seat != 13)
+                                {
+                                    API.setPlayerIntoVehicle(sender, Vehicle, 13);
+                                }
+                                else
+                                {
+                                    API.sendChatMessageToPlayer(sender, "Seat Occupied! Please choose another");
+                                }
+                            }
+                            else if (seatnumber == "16")
+                            {
+                                if (seat != 14)
+                                {
+                                    API.setPlayerIntoVehicle(sender, Vehicle, 14);
+                                }
+                                else
+                                {
+                                    API.sendChatMessageToPlayer(sender, "Seat Occupied! Please choose another");
+                                }
+                            }
                         }
                     }
                 }
+            }
+            else if (inVeh == false)
+            {
+                var near = GetClosestVehicle(sender, 10f);
+                var Occupants = API.getVehicleOccupants(near);
 
+                if (Occupants == null || Occupants.Length == 0)
+                {
+                    API.setPlayerIntoVehicle(sender, near, -1);
+                }
+                else
+                {                   
+                    foreach (var player in Occupants)
+                    {
+                        var seat = API.getPlayerVehicleSeat(player);
+
+                        if (seatnumber == "1")
+                        {
+                            if (seat != -1)
+                            {
+                                API.setPlayerIntoVehicle(sender, near, -1);
+                            }
+                            else
+                            {
+                                API.sendChatMessageToPlayer(sender, "Seat Occupied! Please choose another");
+                            }
+                        }
+                        else if (seatnumber == "2")
+                        {
+                            if (seat != 0)
+                            {
+                                API.setPlayerIntoVehicle(sender, near, 0);
+                            }
+                            else
+                            {
+                                API.sendChatMessageToPlayer(sender, "Seat Occupied! Please choose another");
+                            }
+                        }
+                        else if (seatnumber == "3")
+                        {
+                            if (seat != 1)
+                            {
+                                API.setPlayerIntoVehicle(sender, near, 1);
+                            }
+                            else
+                            {
+                                API.sendChatMessageToPlayer(sender, "Seat Occupied! Please choose another");
+                            }
+                        }
+                        else if (seatnumber == "4")
+                        {
+                            if (seat != 2)
+                            {
+                                API.setPlayerIntoVehicle(sender, near, 2);
+                            }
+                            else
+                            {
+                                API.sendChatMessageToPlayer(sender, "Seat Occupied! Please choose another");
+                            }
+                        }
+                        else if (seatnumber == "5")
+                        {
+                            if (seat != 3)
+                            {
+                                API.setPlayerIntoVehicle(sender, near, 3);
+                            }
+                            else
+                            {
+                                API.sendChatMessageToPlayer(sender, "Seat Occupied! Please choose another");
+                            }
+                        }
+                        else if (seatnumber == "6")
+                        {
+                            if (seat != 4)
+                            {
+                                API.setPlayerIntoVehicle(sender, near, 4);
+                            }
+                            else
+                            {
+                                API.sendChatMessageToPlayer(sender, "Seat Occupied! Please choose another");
+                            }
+                        }
+                        else if (seatnumber == "7")
+                        {
+                            if (seat != 5)
+                            {
+                                API.setPlayerIntoVehicle(sender, near, 5);
+                            }
+                            else
+                            {
+                                API.sendChatMessageToPlayer(sender, "Seat Occupied! Please choose another");
+                            }
+                        }
+                        else if (seatnumber == "8")
+                        {
+                            if (seat != 6)
+                            {
+                                API.setPlayerIntoVehicle(sender, near, 6);
+                            }
+                            else
+                            {
+                                API.sendChatMessageToPlayer(sender, "Seat Occupied! Please choose another");
+                            }
+                        }
+                        else if (seatnumber == "9")
+                        {
+                            if (seat != 7)
+                            {
+                                API.setPlayerIntoVehicle(sender, near, 7);
+                            }
+                            else
+                            {
+                                API.sendChatMessageToPlayer(sender, "Seat Occupied! Please choose another");
+                            }
+                        }
+                        else if (seatnumber == "10")
+                        {
+                            if (seat != 8)
+                            {
+                                API.setPlayerIntoVehicle(sender, near, 8);
+                            }
+                            else
+                            {
+                                API.sendChatMessageToPlayer(sender, "Seat Occupied! Please choose another");
+                            }
+                        }
+                        else if (seatnumber == "11")
+                        {
+                            if (seat != 9)
+                            {
+                                API.setPlayerIntoVehicle(sender, near, 9);
+                            }
+                            else
+                            {
+                                API.sendChatMessageToPlayer(sender, "Seat Occupied! Please choose another");
+                            }
+                        }
+                        else if (seatnumber == "12")
+                        {
+                            if (seat != 10)
+                            {
+                                API.setPlayerIntoVehicle(sender, near, 10);
+                            }
+                            else
+                            {
+                                API.sendChatMessageToPlayer(sender, "Seat Occupied! Please choose another");
+                            }
+                        }
+                        else if (seatnumber == "13")
+                        {
+                            if (seat != 11)
+                            {
+                                API.setPlayerIntoVehicle(sender, near, 11);
+                            }
+                            else
+                            {
+                                API.sendChatMessageToPlayer(sender, "Seat Occupied! Please choose another");
+                            }
+                        }
+                        else if (seatnumber == "14")
+                        {
+                            if (seat != 12)
+                            {
+                                API.setPlayerIntoVehicle(sender, near, 12);
+                            }
+                            else
+                            {
+                                API.sendChatMessageToPlayer(sender, "Seat Occupied! Please choose another");
+                            }
+                        }
+                        else if (seatnumber == "15")
+                        {
+                            if (seat != 13)
+                            {
+                                API.setPlayerIntoVehicle(sender, near, 13);
+                            }
+                            else
+                            {
+                                API.sendChatMessageToPlayer(sender, "Seat Occupied! Please choose another");
+                            }
+                        }
+                        else if (seatnumber == "16")
+                        {
+                            if (seat != 14)
+                            {
+                                API.setPlayerIntoVehicle(sender, near, 14);
+                            }
+                            else
+                            {
+                                API.sendChatMessageToPlayer(sender, "Seat Occupied! Please choose another");
+                            }
+                        }
+                    }
+                }
             }
         }
 
@@ -1227,73 +838,11 @@ namespace GTAPilots
         public void RuleCommand(Client player)
         {
             API.sendChatMessageToPlayer(player, "~g~English only in the main chat");
-            API.sendChatMessageToPlayer(player, "~r~No ~y~RDM");
+            API.sendChatMessageToPlayer(player, "~r~No ~y~Random Deathmatch");
             API.sendChatMessageToPlayer(player, "~r~No ~y~Hacking or Bug Abusing");
             API.sendChatMessageToPlayer(player, "~r~No ~y~Spamming");
             API.sendChatMessageToPlayer(player, "~b~Please respect other players");
             //API.sendChatMessageToPlayer(player, "");
-        }
-
-        [Command("helicam", Alias = "hc", GreedyArg = true)]
-        public void ScaleformCommand(Client Player)
-        {
-            API.sendChatMessageToPlayer(Player, "Heli Cam Active");
-
-            API.triggerClientEvent(Player, "HeliCam");
-        }
-
-        [Command("Phone")]
-        public void PhoneCommand(Client Player)
-        {
-            API.triggerClientEvent(Player, "Phone");
-        }
-
-        [Command("lh", Alias = "lesterhandler")]
-        public void DctlCommand(Client Player)
-        {
-            API.triggerClientEvent(Player, "Lesterhandler");
-        }
-        
-        [Command("gtavo")]
-        public void GtaVOCommand(Client Player)
-        {
-            API.triggerClientEvent(Player, "GTAVOnline");
-        }
-
-        [Command("web")]
-        public void WebCommand(Client Player)
-        {
-            API.triggerClientEvent(Player, "Web Browser");
-        }
-
-        [Command("missioncomplete")]
-        public void LeaderboardCommand(Client Player)
-        {
-            API.triggerClientEvent(Player, "Mission Complete");
-        }
-
-        [Command("graphicdesign")]
-        public void GraphicDesignCommand(Client Player)
-        {
-            API.triggerClientEvent(Player, "Graphic Design");
-        }
-
-        [Command("bubblegum")]
-        public void BubblegumCommand(Client Player)
-        {
-            API.triggerClientEvent(Player, "Bubblegum");
-        }
-
-        [Command("orgname")]
-        public void OrganisationNameCommand(Client Player)
-        {
-            API.triggerClientEvent(Player, "OrgName");
-        }
-
-        [Command("stopscaleform", Alias = "stopsc")]
-        public void StopScaleformCommand (Client Player)
-        {
-            API.triggerClientEvent(Player, "Remove Scaleform");
         }
 
         [Command("heal", GreedyArg = true)]
@@ -1301,7 +850,7 @@ namespace GTAPilots
         {
             Client Injured = API.getPlayerFromName(target);
             string Medic = API.getPlayerName(Player);
-            string Class = API.getEntitySyncedData(Player, "Class");
+            string Class = API.getEntityData(Player, "Class");
             List<Client> nearbyPlayers = API.getPlayersInRadiusOfPlayer(3, Player);
             
             if (Class == "Medic")
@@ -1347,7 +896,405 @@ namespace GTAPilots
         public void SkydiveCommand (Client Player, string Height)
         {
             int HeightInt = Convert.ToInt32(Height);
-            API.setEntityPosition(Player, new Vector3(Player.position.X, Player.position.Y, HeightInt));
+            Vector3 currentHeight = API.getEntityPosition(Player);
+            int GroundHeight = API.fetchNativeFromPlayer<int>(Player, 0x1DD55701034110E5, Player);
+
+            if (GroundHeight == 0)
+            {
+                float minimalHeight = currentHeight.Z;
+
+                if (minimalHeight < HeightInt)
+                {
+                    API.setEntityPosition(Player, new Vector3(Player.position.X, Player.position.Y, HeightInt));
+                }
+            }
+            double newHeight = Math.Round(HeightInt * 3.28084);
+            API.setEntityPosition(Player, new Vector3(Player.position.X, Player.position.Y, newHeight));
+
+        }
+
+        [Command("AdminRestart", ACLRequired = true)]
+        public void RestartAdminResource (Client Player)
+        {
+            string Adminrank = API.getPlayerAclGroup(Player);
+            API.stopResource("GTAPilotsAdmin");
+            API.startResource("GTAPilotsAdmin");
+            API.sendChatMessageToPlayer(Player, "~g~Restarted resource GTAPilotsAdmin");
+
+            //if (Adminrank == "Admin")
+            //{
+            //    API.stopResource("GTAPilotsAdmin");
+            //    API.startResource("GTAPilotsAdmin");
+            //    API.sendChatMessageToPlayer(Player, "~g~Restarted resource GTAPilotsAdmin");
+            //}
+        }
+
+        [Command("Radio")]
+        public void RadioCommand (Client Player)
+        {
+            API.sendChatMessageToPlayer(Player, "Start your chat message with + followed by your radio message.");
+            API.sendChatMessageToPlayer(Player, "You can use the following shortcuts to speed up typing");
+            API.sendChatMessageToPlayer(Player, "~y~#tn ~w~= ~g~Enters your current Tailnumber");
+            API.sendChatMessageToPlayer(Player, "~y~#rw ~w~= ~g~Runway");
+            API.sendChatMessageToPlayer(Player, "~y~#tx1 ~w~= ~g~Taxiing");
+            API.sendChatMessageToPlayer(Player, "~y~#tx2 ~w~= ~g~Taxied");
+            API.sendChatMessageToPlayer(Player, "~y~#to1 ~w~= ~g~Taking Off");
+            API.sendChatMessageToPlayer(Player, "~y~#to2 ~w~= ~g~Took Off");
+            API.sendChatMessageToPlayer(Player, "~y~#dp1 ~w~= ~g~Departing");
+            API.sendChatMessageToPlayer(Player, "~y~#dp2 ~w~= ~g~Departed");
+            API.sendChatMessageToPlayer(Player, "~y~#ln1 ~w~= ~g~Landing");
+            API.sendChatMessageToPlayer(Player, "~y~#ln2 ~w~= ~g~Landed");
+            API.sendChatMessageToPlayer(Player, "~y~#lsia ~w~= ~g~Los Santos International Airport");
+            API.sendChatMessageToPlayer(Player, "~y~#evwa ~w~= ~g~East Vinewood Airfield");
+            API.sendChatMessageToPlayer(Player, "~y~#sandy ~w~= ~g~Sandy Shores Airport");
+            API.sendChatMessageToPlayer(Player, "~y~#fz ~w~= ~g~Fort Zancudo");
+        }
+
+        [Command("Lock")]
+        public void LockCommand (Client Player)
+        {
+            bool inVeh = API.isPlayerInAnyVehicle(Player);
+            if (inVeh == true)
+            {
+                NetHandle Veh = API.getPlayerVehicle(Player);
+                Vehicle Vehicular = API.getEntityFromHandle<Vehicle>(Veh);
+                Client[] Occupants = API.getVehicleOccupants(Veh);
+
+                foreach (var Players in Occupants)
+                {
+                    if (Vehicular.Class == 16)
+                    {
+                        int Seat = API.getPlayerVehicleSeat(Players);
+                        if (Seat == -1)
+                        {
+                            bool anyData = API.hasEntityData(Players, "DoorLocked");
+
+                            if (anyData == true)
+                            {
+                                bool Locked = API.getEntityData(Players, "DoorLocked");
+
+                                if (Locked == false)
+                                {
+                                    //API.triggerClientEvent(Players, "Lock");
+                                    API.sendNativeToPlayer(Players, Hash.SET_VEHICLE_DOORS_LOCKED, Veh, 4);
+                                    API.setEntityData(Players, "DoorLocked", true);
+                                    API.sendChatMessageToPlayer(Players, "Door is locked");
+                                }
+                                else
+                                {
+                                    //API.triggerClientEvent(Players, "Unlock");
+                                    API.sendNativeToPlayer(Players, Hash.SET_VEHICLE_DOORS_LOCKED, Veh, 0);
+                                    API.setEntityData(Players, "DoorLocked", false);
+                                    API.sendChatMessageToPlayer(Players, "Doors Unlocked");
+                                }
+                            }
+                            else
+                            {
+                                //API.triggerClientEvent(Players, "Lock");
+                                API.sendNativeToPlayer(Players, Hash.SET_VEHICLE_DOORS_LOCKED, Veh, 4);
+                                API.sendChatMessageToPlayer(Players, "Doors Locked");
+                                API.setEntityData(Players, "DoorLocked", true);
+                            }
+                        }
+                        else if (Seat == 0)
+                        {
+                            bool anyData = API.hasEntityData(Players, "DoorLocked");
+
+                            if (anyData == true)
+                            {
+                                bool Locked = API.getEntityData(Players, "DoorLocked");
+
+                                if (Locked == false)
+                                {
+                                    //API.triggerClientEvent(Players, "Lock");
+                                    API.sendNativeToPlayer(Players, Hash.SET_VEHICLE_DOORS_LOCKED, Veh, 4);
+                                    API.setEntityData(Players, "DoorLocked", true);
+                                    API.sendChatMessageToPlayer(Players, "Door is locked");
+                                }
+                                else
+                                {
+                                    //API.triggerClientEvent(Players, "Unlock");
+                                    API.sendNativeToPlayer(Players, Hash.SET_VEHICLE_DOORS_LOCKED, Veh, 0);
+                                    API.setEntityData(Players, "DoorLocked", false);
+                                    API.sendChatMessageToPlayer(Players, "Doors Unlocked");
+                                }
+                            }
+                            else
+                            {
+                                //API.triggerClientEvent(Players, "Lock");
+                                API.sendNativeToPlayer(Players, Hash.SET_VEHICLE_DOORS_LOCKED, Veh, 4);
+                                API.sendChatMessageToPlayer(Players, "Doors Locked");
+                                API.setEntityData(Players, "DoorLocked", true);
+                            }
+                        }
+                        else
+                        {
+                            API.sendChatMessageToPlayer(Player, "You are not in a pilots seat!");
+                        }
+                    }
+                    else
+                    {
+                        bool anyData = API.hasEntityData(Players, "DoorLocked");
+
+                        if (anyData == true)
+                        {
+                            bool Locked = API.getEntityData(Players, "DoorLocked");
+
+                            if (Locked == false)
+                            {
+                                //API.triggerClientEvent(Players, "Lock");
+                                API.sendNativeToPlayer(Players, Hash.SET_VEHICLE_DOORS_LOCKED, Veh, 4);
+                                API.setEntityData(Players, "DoorLocked", true);
+                                API.sendChatMessageToPlayer(Players, "Door is locked");
+                            }
+                            else
+                            {
+                                //API.triggerClientEvent(Players, "Unlock");
+                                API.sendNativeToPlayer(Players, Hash.SET_VEHICLE_DOORS_LOCKED, Veh, 0);
+                                API.setEntityData(Players, "DoorLocked", false);
+                                API.sendChatMessageToPlayer(Players, "Doors Unlocked");
+                            }
+                        }
+                        else
+                        {
+                            //API.triggerClientEvent(Players, "Lock");
+                            API.sendNativeToPlayer(Players, Hash.SET_VEHICLE_DOORS_LOCKED, Veh, 4);
+                            API.sendChatMessageToPlayer(Players, "Doors Locked");
+                            API.setEntityData(Players, "DoorLocked", true);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                API.sendChatMessageToPlayer(Player, "You are not in any vehicle!");
+            }
+        }
+
+        [Command("seatbelt")]
+        public void SeatbeltCommand (Client Player)
+        {
+            bool inVeh = API.isPlayerInAnyVehicle(Player);
+
+            if (inVeh == true)
+            {
+                bool Seatbelt = API.getPlayerSeatbelt(Player);
+
+                if (Seatbelt == false)
+                {
+                    API.setPlayerSeatbelt(Player, true);
+                    API.setEntityData(Player, "Seatbelt", true);
+                    API.sendChatMessageToPlayer(Player, "You have put your seatbelt on.");
+                }
+                else if (Seatbelt == true)
+                {
+                    API.setPlayerSeatbelt(Player, false);
+                    API.setEntityData(Player, "Seatbelt", false);
+                    API.sendChatMessageToPlayer(Player, "You have taken your seatbelt off.");
+                }
+            }
+        }
+
+        [Command("SetFuel")]
+        public void SetFuelCommand (Client Player, string Number)
+        {
+            bool inVeh = API.isPlayerInAnyVehicle(Player);
+            int Integer;
+            if (inVeh == true)
+            {
+                bool result = Int32.TryParse(Number, out Integer);
+                if (result == true)
+                {
+                    NetHandle Vehiclular = API.getPlayerVehicle(Player);
+                    API.setVehicleFuelLevel(Vehiclular, Integer);
+                }
+                else
+                {
+                    API.sendChatMessageToPlayer(Player, "Enter numbers only!");
+                }
+            }
+        }
+
+        [Command("SetOil", GreedyArg = true)]
+        public void SetOilCommand (Client Player, string OilLevel)
+        {
+            bool inVeh = API.isPlayerInAnyVehicle(Player);
+            int Integer;
+            if (inVeh == true)
+            {
+                bool result = Int32.TryParse(OilLevel, out Integer);
+                if (result == true)
+                {
+                    NetHandle Vehiclular = API.getPlayerVehicle(Player);
+                    API.setVehicleOilLevel(Vehiclular, Integer);
+                }
+                else
+                {
+                    API.sendChatMessageToPlayer(Player, "Enter numbers only!");
+                }
+            }
+        }
+
+        [Command("Repair")]
+        public void RepairCommand (Client Player)
+        {
+            bool inVehicle = API.isPlayerInAnyVehicle(Player);
+
+            if (inVehicle == true)
+            {
+                NetHandle Vehicle = API.getPlayerVehicle(Player);
+                float EngineHealth = API.getVehicleEngineHealth(Vehicle);
+
+                if (EngineHealth < 1000)
+                {
+                    API.repairVehicle(Vehicle);
+                    API.setVehicleHealth(Vehicle, 1000);
+                }
+                else
+                {
+                    API.sendChatMessageToPlayer(Player, "Vehicle does not need repairing!");
+                }
+
+            }
+            else
+            {
+                API.sendChatMessageToPlayer(Player, "Please enter a vehicle to repair!");
+            }
+        }
+
+        [Command("Hanger")]
+        public void HangerTeleport (Client Player)
+        {
+            API.setEntityPosition(Player, new Vector3(-1266.802, -3014.837, -49.000));
+        }
+
+        [Command("Customise", GreedyArg = true)]
+        public void CustomisePropertyCommand (Client Player, string Property)
+        {
+            string newProperty = Property.ToUpper();
+            if (newProperty == "HANGER")
+            {
+                API.sendChatMessageToPlayer(Player, "Customise Hanger Selected");
+                API.triggerClientEvent(Player, "CustomHanger");
+            }
+        }
+
+        [Command("setlivery", Alias = "sl", GreedyArg = true)]
+        public void SetLiveryCommand (Client Player, string livery)
+        {
+            bool inVehicle = API.isPlayerInAnyVehicle(Player);
+
+            if (inVehicle == true)
+            {
+                int Convertedlivery = Convert.ToInt32(livery);
+                NetHandle Vehicular = API.getPlayerVehicle(Player);
+                API.setVehicleLivery(Vehicular, Convertedlivery);
+
+                API.sendChatMessageToPlayer(Player, "Livery set to " + Convertedlivery);
+            }
+        }
+
+        [Command("setextra", Alias = "se", GreedyArg = true)]
+        public void SetExtrasCommand (Client Player, string Extra)
+        {
+            bool inVeh = API.isPlayerInAnyVehicle(Player);
+
+            if (inVeh == true)
+            {
+                int ConvertedExtra = Convert.ToInt32(Extra);
+                NetHandle Vehicular = API.getPlayerVehicle(Player);
+                API.setVehicleExtra(Vehicular, ConvertedExtra, true);
+
+                API.sendChatMessageToPlayer(Player, "Extra set to " + ConvertedExtra);
+            }
+        }
+
+        [Command("setmod", Alias = "sm", GreedyArg = true)]
+        public void SetModCommand (Client Player, string ModType, string Mod)
+        {
+            bool inVeh = API.isPlayerInAnyVehicle(Player);
+
+            if (inVeh == true)
+            {
+                int ConvertedModType = Convert.ToInt32(ModType);
+                int ConvertedMod = Convert.ToInt32(Mod);
+                NetHandle Vehicular = API.getPlayerVehicle(Player);
+                API.setVehicleMod(Vehicular, ConvertedModType, ConvertedMod);
+                API.triggerClientEvent(Player, "Test", ConvertedModType, ConvertedMod);
+                //API.sendChatMessageToPlayer(Player, "Mod type set to " + ConvertedModType + ". Mod set to " + ConvertedMod);
+            }
+        }
+
+        [Command("Scenario", Alias = "scn", GreedyArg = true)]
+        public void ScenarioCommand (Client Player, string Scenario)
+        {
+            API.playPlayerScenario(Player, Scenario);
+        }
+
+        [Command("StopScenario", Alias = "ssc")]
+        public void StopScenarioCommand (Client Player)
+        {
+            API.stopPlayerAnimation(Player);
+        }
+
+        [Command("SetClothes", Alias = "sc", GreedyArg = true)]
+        public void SetClothesCommand (Client Player, string slot, string drawable, string texture)
+        {
+            int Slots;
+            int Drawables;
+            int Textures;
+
+            Int32.TryParse(slot, out Slots);
+            Int32.TryParse(drawable, out Drawables);
+            Int32.TryParse(texture, out Textures);
+
+            int Model = API.getEntityModel(Player);
+            if ((PedHash)Model == PedHash.FreemodeMale01)
+            {
+                API.setPlayerClothes(Player, Slots, Drawables, Textures);
+            }
+            else if ((PedHash)Model == PedHash.FreemodeFemale01)
+            {
+                API.setPlayerClothes(Player, Slots, Drawables, Textures);
+            }
+            else
+            {
+                API.sendChatMessageToPlayer(Player, "Please set skin to FreemodeMale01 or FreemodeFemale01");
+            }
+        }
+
+        [Command("SetAccessory", Alias = "sa", GreedyArg = true)]
+        public void SetAccessoriesCommand(Client Player, string slot, string drawable, string texture)
+        {
+            int Slots;
+            int Drawables;
+            int Textures;
+
+            Int32.TryParse(slot, out Slots);
+            Int32.TryParse(drawable, out Drawables);
+            Int32.TryParse(texture, out Textures);
+
+            int Model = API.getEntityModel(Player);
+            if ((PedHash)Model == PedHash.FreemodeMale01)
+            {
+                API.setPlayerAccessory(Player, Slots, Drawables, Textures);
+            }
+            else if ((PedHash)Model == PedHash.FreemodeFemale01)
+            {
+                API.setPlayerAccessory(Player, Slots, Drawables, Textures);
+            }
+            else
+            {
+                API.sendChatMessageToPlayer(Player, "Please set skin to FreemodeMale01 or FreemodeFemale01");
+            }
+        }
+
+        [Command("ClearAccessory", Alias = "ca", GreedyArg = true)]
+        public void ClearAccessories (Client Player, string Slot)
+        {
+            int Slots;
+            Int32.TryParse(Slot, out Slots);
+            API.clearPlayerAccessory(Player, Slots);
         }
     }
 }

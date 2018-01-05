@@ -1,0 +1,6 @@
+<meta>
+    <info name="ModMenu" author="Nikku" type="script" async="true" />
+    
+    <script src="modmenu.cs" type="server" lang="csharp" />
+    <script src="modmenu.js" type="client" lang="javascript" />
+</meta>

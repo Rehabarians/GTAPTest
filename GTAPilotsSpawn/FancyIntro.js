@@ -1,48 +1,81 @@
-/// <reference path ="\types-gtanetwork\index.d.ts" />
-var Startpos = new Vector3(-860.561, -2420.079, 34.29277);
-var Startrot = new Vector3(-13.2561865, 0, 152.029846);
-var Camera1pos = new Vector3(-981.3622, -2636.86084, 95.5418243);
-var Camera1rot = new Vector3(-13.9829168, 0, 148.655334);
-var Endpos = new Vector3(-1010, -2695, 33.47642);
-var Endrot = new Vector3(2.79839826, 0, 147.313782);
-let CameraStart = API.createCamera(Startpos, Startrot);
-let CameraMid1 = API.createCamera(Camera1pos, Camera1rot);
-let CameraEnd = API.createCamera(Endpos, Endrot);
-//var t1 = resource.Timer.newtimer(1000, resource.FancyIntro.CameraMid);
-//var t2 = resource.Timer.newtimer(10000, resource.FancyIntro.CameraFinish);
-//var t3 = resource.Timer.newtimer(12000, resource.FancyIntro.AudioStop);
+/// <reference path ="types-gt-mp/Definitions/index.d.ts" />
+let CameraStart = null;
+let CameraMid1 = null;
+let CameraEnd = null;
+var t1;
+let t1Active = false;
+var t2;
+let t2Active = false;
+var t3;
+let t3Active = false;
+let IntroActive = false;
+let alpha = 1;
+let ResX = API.getScreenResolutionMantainRatio().Width;
+let ResY = API.getScreenResolutionMantainRatio().Height;
+API.onResourceStart.connect(function () {
+    var Startpos = new Vector3(-860.561, -2420.079, 34.29277);
+    var Startrot = new Vector3(-13.2561865, 0, 152.029846);
+    var Camera1pos = new Vector3(-981.3622, -2636.86084, 95.5418243);
+    var Camera1rot = new Vector3(-13.9829168, 0, 148.655334);
+    var Endpos = new Vector3(-1010, -2695, 33.47642);
+    var Endrot = new Vector3(2.79839826, 0, 147.313782);
+    CameraStart = API.createCamera(Startpos, Startrot);
+    CameraMid1 = API.createCamera(Camera1pos, Camera1rot);
+    CameraEnd = API.createCamera(Endpos, Endrot);
+    API.preloadAudio("resource/Music/CivilSpawnMusic.wav");
+    //API.setHudVisible(false);
+    //API.setChatVisible(false);
+});
 API.onServerEventTrigger.connect(function (name, args) {
     if (name === "Intro") {
-        API.startAudio("CivilSpawnMusic.mp3", true);
+        IntroActive = true;
+        API.startAudio("resource/Music/CivilSpawnMusic.wav", false);
         API.setActiveCamera(CameraStart);
-        //t1.Running = true;
-        //t1.RunOnce = true;
-        API.sleep(1000);
-        API.interpolateCameras(CameraStart, CameraMid1, 10000, true, true);
-        API.sleep(10000);
-        API.interpolateCameras(CameraMid1, CameraEnd, 10000, true, true);
-        API.sleep(12000);
-        API.stopAudio();
+        t1 = API.after(1000, "CameraMid");
+        t1Active = true;
     }
     else if (name === "SkipCommand") {
-        API.detachCamera(CameraStart);
-        API.detachCamera(CameraMid1);
-        API.detachCamera(CameraEnd);
-        API.triggerServerEvent("Skip");
+        if (IntroActive === true) {
+            API.detachCamera(CameraStart);
+            API.detachCamera(CameraMid1);
+            API.detachCamera(CameraEnd);
+            if (t1Active === true) {
+                API.stop(t1);
+            }
+            if (t2Active === true) {
+                API.stop(t2);
+            }
+            if (t3Active === true) {
+                API.stop(t3);
+            }
+            IntroActive = false;
+            API.stopAudio();
+            API.setHudVisible(true);
+            API.setChatVisible(true);
+            API.triggerServerEvent("Skip");
+        }
     }
 });
 function CameraMid() {
-    //API.interpolateCameras(CameraStart, CameraMid1, 10000, true, true);
-    //t2.Running = true;
-    //t2.RunOnce = true;
+    API.stop(t1);
+    t1Active = false;
+    API.interpolateCameras(CameraStart, CameraMid1, 13000, true, true);
+    t2 = API.after(14000, "CameraFinish");
+    t2Active = true;
 }
-;
 function CameraFinish() {
-    //API.interpolateCameras(CameraMid1, CameraEnd, 10000, true, true);
-    //t3.Running = true;
-    //t3.RunOnce = true;
+    API.stop(t2);
+    t2Active = false;
+    API.interpolateCameras(CameraMid1, CameraEnd, 13000, true, true);
+    t3 = API.after(14000, "AudioStop");
+    t3Active = true;
 }
-;
 function AudioStop() {
+    API.stop(t3);
+    t3Active = false;
+    API.triggerServerEvent("Skip");
     API.stopAudio();
+    API.setHudVisible(true);
+    API.setChatVisible(true);
+    IntroActive = false;
 }

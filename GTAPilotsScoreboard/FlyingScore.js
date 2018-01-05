@@ -1,12 +1,10 @@
-/// <reference path ="\types-gtanetwork\index.d.ts" />
 "use strict";
+/// <reference path ="\types-gt-mp\Definitions\index.d.ts" />
 API.onUpdate.connect(function () {
     // We don't want to display the text if the main HUD is not visible
     if (!API.getHudVisible()) {
         return;
     }
-    API.triggerServerEvent("WriteScore");
-    API.triggerServerEvent("Update");
     // Always check if the entity has the data we plan to access
     if (API.hasEntitySyncedData(API.getLocalPlayer(), "Local_Score")) {
         // Our player has the "LEVEL" data key we set earlier, let's get it's value and display it on the screen

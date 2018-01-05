@@ -1,5 +1,5 @@
-/// <reference path ="\types-gtanetwork\index.d.ts" />
 "use strict";
+/// <reference path ="\types-gt-mp\Definitions\index.d.ts" />
 function disableControls() {
     API.disableControlThisFrame(14);
     API.disableControlThisFrame(15);
@@ -9,7 +9,7 @@ API.onUpdate.connect(function () {
         //disableControls();
         API.disableControlThisFrame(14);
         API.disableControlThisFrame(15);
-        var res = API.getScreenResolutionMantainRatio();
+        var res = API.getScreenResolutionMaintainRatio();
         var players = API.getAllPlayers();
         var flyingHours = API.getEntitySyncedData(API.getLocalPlayer(), "Local_Score");
         var columnList = API.getWorldSyncedData("scoreboard_column_names");
@@ -40,12 +40,15 @@ API.onUpdate.connect(function () {
             currentCW += columnWidths[j];
         }
         API.drawRectangle(startX, startY + 40, totalWidth, 40, 50, 50, 50, 200);
-        API.drawText(API.getPlayerName(API.getLocalPlayer()), startX + 10, startY + 45, 0.4, 255, 255, 255, 255, 4, 0, false, true, 0);
+        //for (var x = 0; x < players.Count; x++) {
+        //    API.drawText(players.GetValue(), startX + 10, startY + 45, 0.4, 255, 255, 255, 255, 4, 0, false, true, 0);
+        //}
+        API.drawText(players.GetValue(), startX + 10, startY + 45, 0.4, 255, 255, 255, 255, 4, 0, false, true, 0);
         currentCW = 0;
         for (var j = 0; j < columnList.Count; j++) {
-            var columnData = API.getEntitySyncedData(API.getLocalPlayer(), columnList[j]);
+            var columnData = API.getEntitySyncedData(API.getPlayerByName(players.GetValue()), columnList[j]);
             if (columnList[j] === "scoreboard_ping")
-                columnData = API.toString(API.getPlayerPing(API.getLocalPlayer()));
+                columnData = API.toString(API.getPlayerPing(API.getPlayerByName(players.GetValue())));
             if (columnData !== null) {
                 API.drawText(API.toString(columnData), res.Width - startX - currentCW - 5, startY + 45, 0.4, 255, 255, 255, 255, 4, 2, false, true, 0);
                 currentCW += columnWidths[j];
@@ -53,7 +56,7 @@ API.onUpdate.connect(function () {
         }
         currentCW = 1;
         for (var j = 0; j < columnList.Count; j++) {
-            var columnData = API.getEntitySyncedData(API.getLocalPlayer(), columnList[j]);
+            var columnData = API.getEntitySyncedData(API.getPlayerByName(players.GetValue()), columnList[j]);
             if (columnList[j] === "scoreboard_score")
                 columnData = API.toString(flyingHours);
             if (columnData !== null) {

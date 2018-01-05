@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<meta>
+  <script src="FreemodeSkinClothesClient.js" type="client" lang="javascript" />
+  <script src="FreemodeSkinClothingServer.cs" type="server" lang="csharp" />
+</meta>

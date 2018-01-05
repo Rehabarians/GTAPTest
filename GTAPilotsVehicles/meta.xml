@@ -1,6 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <meta>
 
+  <script src="VehicleWeaponDisable.js" type="client" lang="javascript" />
   <script src="VehicleSpawn.cs" type="server" lang="csharp" />
+  <script src="VehicleDespawn.cs" type="server" lang="csharp" />
 
 </meta>

@@ -1,5 +1,5 @@
-/// <reference path ="\types-gtanetwork\index.d.ts" />
 "use strict";
+/// <reference path ="\types-gt-mp\Definitions\index.d.ts" />
 API.onServerEventTrigger.connect(function (name, args) {
     var player = API.getLocalPlayer();
     var adminPos = API.getEntityPosition(player);

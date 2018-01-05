@@ -1,10 +1,19 @@
 using System;
 using System.IO;
-using GTANetworkServer;
-using GTANetworkShared;
 using System.Xml;
 using System.Collections.Generic;
 using System.Linq;
+using GrandTheftMultiplayer.Server;
+using GrandTheftMultiplayer.Server.API;
+using GrandTheftMultiplayer.Server.Constant;
+using GrandTheftMultiplayer.Server.Elements;
+using GrandTheftMultiplayer.Server.Extensions;
+using GrandTheftMultiplayer.Server.Managers;
+using GrandTheftMultiplayer.Server.Models;
+using GrandTheftMultiplayer.Server.Util;
+using GrandTheftMultiplayer.Shared;
+using GrandTheftMultiplayer.Shared.Gta;
+using GrandTheftMultiplayer.Shared.Math;
 
 namespace GTAPilotsAdmin
 {
@@ -45,7 +54,7 @@ namespace GTAPilotsAdmin
         #region Commands
 
         [Command(SensitiveInfo = true, ACLRequired = true)]
-        public void Login(Client sender, string password)
+        public void ALogin(Client sender, string password)
         {
             var logResult = API.loginPlayer(sender, password);
             switch (logResult)
@@ -277,23 +286,29 @@ namespace GTAPilotsAdmin
         [Command("V", ACLRequired = true, GreedyArg = true)]
         public void AllVehicles(Client sender, string vehicle)
         {
+            string NewText = vehicle.ToUpper();
+
             VehicleHash VehicleSpawn = API.vehicleNameToModel(vehicle);
             Vector3 vPos = API.getEntityPosition(sender.handle);
             Vector3 vRot = API.getEntityRotation(sender.handle);
             Vehicle SpawnVehicle = API.createVehicle(VehicleSpawn, vPos, vRot, 1, 0);
 
+            API.setVehicleNumberPlate(SpawnVehicle, sender.name);
+
+            int Class = API.getVehicleClass(VehicleSpawn);
+
+
+            if (Class == 15 || Class == 16)
+            {
+                API.setEntitySyncedData(SpawnVehicle, "VehicleType", "Aircraft");
+                API.setEntitySyncedData(SpawnVehicle, "Tailnumber", RandomString(4));
+                if (NewText == "TULA")
+                {
+                    API.setVehicleMod(SpawnVehicle, 4, 0);
+                }
+            }
+
             API.setPlayerIntoVehicle(sender, SpawnVehicle, -1);
-
-        }
-
-        [Command("vcolor", ACLRequired = true, GreedyArg = true)]
-        public void VehicleColor(Client sender, string color1, string color2)
-        {
-            int colour1 = Convert.ToInt32(color1);
-            int colour2 = Convert.ToInt32(color2);
-
-            API.setVehiclePrimaryColor(sender, colour1);
-            API.setVehicleSecondaryColor(sender, colour2);
 
         }
 
@@ -350,55 +365,6 @@ namespace GTAPilotsAdmin
         public void BlackoutCommand(Client sender, bool blackout)
         {
             API.sendNativeToAllPlayers(0x1268615ACE24D504, blackout);
-        }
-
-        [Command("guarddog", ACLRequired = true, Alias = "gd", GreedyArg = true)]
-        public void GuardDog(Client admin, string Dog)
-        {
-            if (Dog == "Chop")
-            {
-                API.triggerClientEvent(admin, "Chop");
-            }
-
-            else if (Dog == "Coyote")
-            {
-                API.triggerClientEvent(admin, "Coyote");
-            }
-
-            else if (Dog == "Husky")
-            {
-                API.triggerClientEvent(admin, "Husky");
-            }
-
-            else if (Dog == "Poodle")
-            {
-                API.triggerClientEvent(admin, "Poodle");
-            }
-
-            else if (Dog == "Pug")
-            {
-                API.triggerClientEvent(admin, "Pug");
-            }
-
-            else if (Dog == "Retriever")
-            {
-                API.triggerClientEvent(admin, "Retriever");
-            }
-
-            else if (Dog == "Rottweiler")
-            {
-                API.triggerClientEvent(admin, "Rottweiler");
-            }
-
-            else if (Dog == "Shepherd")
-            {
-                API.triggerClientEvent(admin, "Shepherd");
-            }
-
-            else if (Dog == "Westy")
-            {
-                API.triggerClientEvent(admin, "Westy");
-            }
         }
 
         [Command("adminhelp", ACLRequired = true, Alias = "ah")]
@@ -484,17 +450,24 @@ namespace GTAPilotsAdmin
             }
         }
 
-        [Command("giveweapon", Alias = "w", GreedyArg = true)]
+        [Command("giveweapon", Alias = "w", GreedyArg = true, ACLRequired = true)]
         public void GiveWeaponCommand(Client Admin, string Target, string Weapon)
         {
+            Client TargetPlayer;
             try
             {
-                Client TargetPlayer = API.getPlayerFromName(Target);
-
+                if (Target == null)
+                {
+                    TargetPlayer = Admin;
+                }
+                else
+                {
+                    TargetPlayer = API.getPlayerFromName(Target);
+                }
+                
                 try
                 {
                     WeaponHash WeaponSpawn = API.weaponNameToModel(Weapon);
-
                     API.givePlayerWeapon(TargetPlayer, WeaponSpawn, 999, true, true);
                 }
                 catch (Exception)
@@ -512,29 +485,30 @@ namespace GTAPilotsAdmin
 
         }
 
-        [Command("nograv", ACLRequired = true)]
-        public void NoGravityCommand(Client Player)
-        {
-            API.sendChatMessageToPlayer(Player, "Gravity Off");
-            API.triggerClientEvent(Player, "nograv");
-        }
-
-        [Command("grav", ACLRequired = true)]
-        public void GravityCommand(Client Player)
-        {
-            API.sendChatMessageToPlayer(Player, "Gravity On");
-            API.triggerClientEvent(Player, "grav");
-        }
-
-        [Command("setgrav", GreedyArg = true, ACLRequired = true)]
+        [Command("setgrav", Alias = "sg", GreedyArg = true, ACLRequired = true)]
         public void SetGravityCommand(Client Player, string Gravity)
         {
             int gravityInt = Convert.ToInt32(Gravity);
             API.sendChatMessageToPlayer(Player, "Gravity set to " + gravityInt);
-            API.setEntitySyncedData(Player, "Gravity", gravityInt);
-            API.triggerClientEvent(Player, "setgrav");
+            API.setGravityLevel(gravityInt);
         }
 
+        [Command("slap", GreedyArg = true, ACLRequired = true)]
+        public void SlapCommand (Client Admin, string TargetPlayer)
+        {
+            Client SlappedPlayer = API.getPlayerFromName(TargetPlayer);
+            bool PlayerExists = API.doesEntityExist(SlappedPlayer);
+
+            if (PlayerExists == true)
+            {
+                Vector3 TargetPlayerLocation = API.getEntityPosition(SlappedPlayer);
+                float newHeight = TargetPlayerLocation.Z + 5;
+
+                API.setEntityPosition(SlappedPlayer, new Vector3(TargetPlayerLocation.X, TargetPlayerLocation.Y, newHeight));
+                API.sendChatMessageToPlayer(Admin, "You have slapped " + SlappedPlayer.nametag);
+                API.sendChatMessageToPlayer(SlappedPlayer, "You have been slapped! Ouch!");
+            }
+        }
         #endregion
 
         private void OnResStart()

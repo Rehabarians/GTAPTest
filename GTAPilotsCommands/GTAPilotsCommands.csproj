@@ -30,29 +30,55 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="GTANetworkServer, Version=0.1.380.636, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\gtanetwork.api.0.2.13.1\lib\GTANetworkServer.exe</HintPath>
+    <Reference Include="BCrypt.Net, Version=0.1.5073.29922, Culture=neutral, PublicKeyToken=6bcd409ee6bc9292, processorArchitecture=MSIL">
+      <HintPath>..\packages\BCrypt-Official.0.1.109\lib\BCrypt.Net.dll</HintPath>
     </Reference>
-    <Reference Include="GTANetworkShared, Version=1.0.0.0, Culture=neutral, PublicKeyToken=60c67de1b3b675de, processorArchitecture=MSIL">
-      <HintPath>..\packages\gtanetwork.api.0.2.13.1\lib\GTANetworkShared.dll</HintPath>
+    <Reference Include="Google.Protobuf, Version=3.4.1.0, Culture=neutral, PublicKeyToken=a7d26565bac4d604, processorArchitecture=MSIL">
+      <HintPath>..\packages\Google.Protobuf.3.4.1\lib\net45\Google.Protobuf.dll</HintPath>
     </Reference>
-    <Reference Include="Insight.Database, Version=5.2.10.0, Culture=neutral, PublicKeyToken=f35c6ef87e515afc, processorArchitecture=MSIL">
-      <HintPath>..\packages\Insight.Database.Core.5.2.10\lib\NET45\Insight.Database.dll</HintPath>
+    <Reference Include="GrandTheftMultiplayer.Server, Version=0.1.640.64, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\grandtheftmultiplayer.api.0.1.640.64\lib\net452\GrandTheftMultiplayer.Server.exe</HintPath>
     </Reference>
-    <Reference Include="Insight.Database.Configuration, Version=5.2.10.0, Culture=neutral, PublicKeyToken=f35c6ef87e515afc, processorArchitecture=MSIL">
-      <HintPath>..\packages\Insight.Database.5.2.10\lib\NET45\Insight.Database.Configuration.dll</HintPath>
+    <Reference Include="GrandTheftMultiplayer.Shared, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\grandtheftmultiplayer.api.0.1.640.64\lib\net452\GrandTheftMultiplayer.Shared.dll</HintPath>
     </Reference>
-    <Reference Include="Insight.Database.Providers.Default, Version=5.2.10.0, Culture=neutral, PublicKeyToken=f35c6ef87e515afc, processorArchitecture=MSIL">
-      <HintPath>..\packages\Insight.Database.5.2.10\lib\NET45\Insight.Database.Providers.Default.dll</HintPath>
+    <Reference Include="Insight.Database, Version=6.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Insight.Database.6.0.0\lib\net451\Insight.Database.dll</HintPath>
     </Reference>
-    <Reference Include="Insight.Database.Providers.MySql, Version=5.2.10.0, Culture=neutral, PublicKeyToken=f35c6ef87e515afc, processorArchitecture=MSIL">
-      <HintPath>..\packages\Insight.Database.Providers.MySql.5.2.10\lib\Insight.Database.Providers.MySql.dll</HintPath>
+    <Reference Include="Insight.Database.Configuration, Version=6.0.0.0, Culture=neutral, PublicKeyToken=f35c6ef87e515afc, processorArchitecture=MSIL">
+      <HintPath>..\packages\Insight.Database.Configuration.6.0.0\lib\net451\Insight.Database.Configuration.dll</HintPath>
     </Reference>
-    <Reference Include="MySql.Data, Version=6.9.9.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
-      <HintPath>..\packages\MySql.Data.6.9.9\lib\net45\MySql.Data.dll</HintPath>
+    <Reference Include="Insight.Database.Core, Version=6.0.0.0, Culture=neutral, PublicKeyToken=f35c6ef87e515afc, processorArchitecture=MSIL">
+      <HintPath>..\packages\Insight.Database.Core.6.0.0\lib\net451\Insight.Database.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Insight.Database.Providers.Default, Version=6.0.0.0, Culture=neutral, PublicKeyToken=f35c6ef87e515afc, processorArchitecture=MSIL">
+      <HintPath>..\packages\Insight.Database.Providers.Default.6.0.0\lib\net451\Insight.Database.Providers.Default.dll</HintPath>
+    </Reference>
+    <Reference Include="Insight.Database.Providers.MySQL, Version=6.0.0.0, Culture=neutral, PublicKeyToken=f35c6ef87e515afc, processorArchitecture=MSIL">
+      <HintPath>..\packages\Insight.Database.Providers.MySQL.6.0.0\lib\net451\Insight.Database.Providers.MySQL.dll</HintPath>
+    </Reference>
+    <Reference Include="MySql.Data, Version=8.0.9.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <HintPath>..\packages\MySql.Data.8.0.9-dmr\lib\net452\MySql.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\packages\NLog.5.0.0-beta11\lib\net45\NLog.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.Common, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Data.Common.4.3.0\lib\net451\System.Data.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data.SqlClient, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Data.SqlClient.4.4.0\lib\net461\System.Data.SqlClient.dll</HintPath>
+    </Reference>
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.ValueTuple, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.4.0\lib\net461\System.ValueTuple.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -62,6 +88,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -71,25 +98,55 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Countdown.js" />
+    <Content Include="docs\MySqlCommand.xml" />
+    <Content Include="docs\MySqlCommandBuilder.xml" />
+    <Content Include="docs\MySqlConnection.xml" />
+    <Content Include="docs\MySqlConnectionStringBuilder.xml" />
+    <Content Include="docs\MySqlDataAdapter.xml" />
+    <Content Include="docs\MySqlDataReader.xml" />
+    <Content Include="docs\MySqlException.xml" />
+    <Content Include="docs\MySqlHelper.xml" />
+    <Content Include="docs\MySqlParameter.xml" />
+    <Content Include="docs\MySqlParameterCollection.xml" />
+    <Content Include="docs\MySqlTransaction.xml" />
+    <Content Include="LICENSE.txt" />
     <Content Include="meta.xml" />
-    <Content Include="NavigationBeacons.js" />
   </ItemGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="Animations.ts" />
+    <TypeScriptCompile Include="ClientCommands.ts" />
     <TypeScriptCompile Include="ColTeleports.ts" />
-    <TypeScriptCompile Include="NavigationBeacons.ts" />
+    <TypeScriptCompile Include="InteriorPropMenu.ts" />
     <TypeScriptCompile Include="Scaleforms.ts" />
-    <TypeScriptCompile Include="takeoffandlanding.ts" />
-    <TypeScriptCompile Include="Timer.ts" />
-    <TypeScriptCompile Include="types-gtanetwork\Declarations.d.ts" />
-    <TypeScriptCompile Include="types-gtanetwork\Enums.ts" />
-    <TypeScriptCompile Include="types-gtanetwork\GTANetwork.dll.d.ts" />
-    <TypeScriptCompile Include="types-gtanetwork\GTANetworkShared.dll.d.ts" />
-    <TypeScriptCompile Include="types-gtanetwork\index.d.ts" />
-    <TypeScriptCompile Include="types-gtanetwork\NativeUI.dll.d.ts" />
-    <TypeScriptCompile Include="types-gtanetwork\ScriptHookVDotNet.dll.d.ts" />
-    <TypeScriptCompile Include="types-gtanetwork\System.d.ts" />
-    <TypeScriptCompile Include="types-gtanetwork\System.Drawing.dll.d.ts" />
-    <TypeScriptCompile Include="types-gtanetwork\Xilium.CefGlue.dll.d.ts" />
+    <TypeScriptCompile Include="types-gt-mp\Declarations.d.ts" />
+    <TypeScriptCompile Include="types-gt-mp\Definitions\Declarations.d.ts" />
+    <TypeScriptCompile Include="types-gt-mp\Definitions\GrandTheftMultiplayer.Client.Contracts.d.ts" />
+    <TypeScriptCompile Include="types-gt-mp\Definitions\GrandTheftMultiplayer.Client.GUI.d.ts" />
+    <TypeScriptCompile Include="types-gt-mp\Definitions\GrandTheftMultiplayer.Client.Javascript.d.ts" />
+    <TypeScriptCompile Include="types-gt-mp\Definitions\GrandTheftMultiplayer.Client.Javascript.ScriptContext.d.ts" />
+    <TypeScriptCompile Include="types-gt-mp\Definitions\GrandTheftMultiplayer.Client.Models.d.ts" />
+    <TypeScriptCompile Include="types-gt-mp\Definitions\GrandTheftMultiplayer.Client.Sound.d.ts" />
+    <TypeScriptCompile Include="types-gt-mp\Definitions\GrandTheftMultiplayer.Client.Sync.d.ts" />
+    <TypeScriptCompile Include="types-gt-mp\Definitions\GrandTheftMultiplayer.Shared.d.ts" />
+    <TypeScriptCompile Include="types-gt-mp\Definitions\GrandTheftMultiplayer.Shared.Math.d.ts" />
+    <TypeScriptCompile Include="types-gt-mp\Definitions\GTA.d.ts" />
+    <TypeScriptCompile Include="types-gt-mp\Definitions\GTA.Math.d.ts" />
+    <TypeScriptCompile Include="types-gt-mp\Definitions\GTA.Native.d.ts" />
+    <TypeScriptCompile Include="types-gt-mp\Definitions\GTA.NaturalMotion.d.ts" />
+    <TypeScriptCompile Include="types-gt-mp\Definitions\GTA.UI.d.ts" />
+    <TypeScriptCompile Include="types-gt-mp\Definitions\index.d.ts" />
+    <TypeScriptCompile Include="types-gt-mp\Definitions\Microsoft.ClearScript.d.ts" />
+    <TypeScriptCompile Include="types-gt-mp\Definitions\NativeUI.d.ts" />
+    <TypeScriptCompile Include="types-gt-mp\Definitions\NativeUI.UIMenu.d.ts" />
+    <TypeScriptCompile Include="types-gt-mp\Definitions\NativeUI.UIMenuDynamicListItem.d.ts" />
+    <TypeScriptCompile Include="types-gt-mp\Definitions\NativeUI.UIMenuItem.d.ts" />
+    <TypeScriptCompile Include="types-gt-mp\Definitions\NativeUI.UIResText.d.ts" />
+    <TypeScriptCompile Include="types-gt-mp\Definitions\System.Collections.d.ts" />
+    <TypeScriptCompile Include="types-gt-mp\Definitions\System.Collections.Generic.d.ts" />
+    <TypeScriptCompile Include="types-gt-mp\Definitions\System.d.ts" />
+    <TypeScriptCompile Include="types-gt-mp\Definitions\System.Drawing.d.ts" />
+    <TypeScriptCompile Include="types-gt-mp\Definitions\System.Windows.Forms.d.ts" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
